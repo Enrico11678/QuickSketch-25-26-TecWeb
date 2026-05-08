@@ -1,6 +1,10 @@
 import express, { Request, Response, NextFunction, Application } from "express";
 import cors from "cors";
-import { User, Sketch, Word, Guess } from "./models/index.js";import { initDatabase } from "./Database.js"; // Importa la funzione di inizializzazione del database
+import { initDatabase } from "./Database.js"; // Importa la funzione di inizializzazione del database
+import { AppError } from "./utils/errors.js";
+import authRoutes from './routes/authRoutes.js';
+import wordRoutes from './routes/wordRoutes.js';
+import { seedWords } from "./models/seeder.js";
 
 const app: Application = express();
 const PORT: number = Number(process.env.PORT) || 3000;
@@ -9,37 +13,28 @@ const PORT: number = Number(process.env.PORT) || 3000;
 app.use(cors()); 
 app.use(express.json()); 
 
+app.use('/api/auth', authRoutes);
+app.use('/api/words', wordRoutes);
+
 // Rotta di test
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Benvenuto nelle API di QuickSketch in TypeScript!" });
 });
 
-// Interfaccia personalizzata per gestire gli errori con status
-interface HttpError extends Error {
-  status?: number;
-}
-
 // Gestione errori (Middleware finale)
-app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  
-  const statusCode = err.status || 500;
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  // Se è un nostro AppError, usiamo i suoi dati, altrimenti 500 (Errore generico)
+  const statusCode = err instanceof AppError ? err.statusCode : 500;
+  const message = err.message || "An error occurred on the server";
+
+  console.error(`[ERROR ${statusCode}]: ${err.stack}`);
   
   res.status(statusCode).json({
+    status: "error",
     code: statusCode,
-    description: err.message || "An error occurred"
+    description: message
   });
 });
-
-// Funzione di popolamento parole (Seeding)
-const seedWords = async () => {
-  const count = await Word.count();
-  if (count === 0) {
-    const defaultWords = ['Gatto', 'Automobile', 'Pizza', 'Chitarra', 'Sole', 'Bicicletta'];
-    await Word.bulkCreate(defaultWords.map(w => ({ text: w })));
-    console.log("Dizionario inizializzato!");
-  }
-};
 
 // Avvio del server con sincronizzazione DB
 app.listen(PORT, async () => {
