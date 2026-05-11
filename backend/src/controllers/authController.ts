@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import * as userService from '../services/userService.js'
+import { BadRequestError } from '../utils/errors.js';
 
 // Controller per la registrazione di un nuovo utente
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

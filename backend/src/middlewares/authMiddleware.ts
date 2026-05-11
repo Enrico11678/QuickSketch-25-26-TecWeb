@@ -36,3 +36,26 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
         throw new AuthError("Sessione scaduta o Token non valido.");
     }
 };
+
+export const authenticateOptional = (req: AuthRequest, res: Response, next: NextFunction) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        // Nessun token fornito passa al controller come ospite (req.user resta undefined)
+        return next();
+    }
+
+    try {
+        const jwtSecret = process.env.JWT_SECRET as string;
+        const decoded = jwt.verify(token, jwtSecret) as { userId: number, email: string };
+
+        // Token valido: popola req.user così il controller sa che sei loggato
+        req.user = decoded;
+        next();
+    } catch(error) {
+        // Token fornito ma non valido (es. scaduto): passi lo stesso come ospite
+        // invece di lanciare un errore.
+        next();
+    }
+};

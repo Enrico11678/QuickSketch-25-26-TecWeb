@@ -40,3 +40,21 @@ export class ConflictError extends AppError {
         super(message, 409);
     }
 }
+
+export class ValidationError extends AppError {
+    constructor(message: string = "Errore di validazione dei dati.") {
+        super(message, 422); // 422 Unprocessable Entity
+    }
+}
+
+export class ForbiddenError extends AppError {
+    constructor(message: string = "Non hai i permessi per eseguire questa azione.") {
+        super(message, 403); 
+    }
+}
+
+export class ServerError extends AppError {
+    constructor(message: string = "Errore interno del server.") {
+        super(message, 500);
+    }
+}
