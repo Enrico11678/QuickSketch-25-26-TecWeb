@@ -4,7 +4,8 @@ import { initDatabase } from "./Database.js"; // Importa la funzione di iniziali
 import { AppError } from "./utils/errors.js";
 import authRoutes from './routes/authRoutes.js';
 import wordRoutes from './routes/wordRoutes.js';
-import sketchRoutes from './routes/sketchRoutes.js'
+import sketchRoutes from './routes/sketchRoutes.js';
+import guessRoutes from './routes/guessRoutes.js';
 import { seedWords } from "./models/seeder.js";
 
 const app: Application = express();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/words', wordRoutes);
 app.use('/api/sketches', sketchRoutes);
+app.use('/api/guesses', guessRoutes);
 
 // Rotta di test
 app.get("/", (req: Request, res: Response) => {
