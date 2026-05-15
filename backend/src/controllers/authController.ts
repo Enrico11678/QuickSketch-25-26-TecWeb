@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
-import * as userService from '../services/userService.js'
+import * as authService from '../services/authService.js'
 import { BadRequestError } from '../utils/errors.js';
 
 // Controller per la registrazione di un nuovo utente
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         // Chiamo il service passando il body della richiesta
-        const newUser = await userService.createUser(req.body);
+        const newUser = await authService.createUser(req.body);
 
         // Risposta con successo
         // Restituisce solo i dati necessari, mai la password
@@ -33,7 +33,7 @@ export const register = async (req: Request, res: Response, next: NextFunction):
 export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         // Chiamo il service passando il body della richiesta
-        const { user, token } = await userService.loginUser(req.body);
+        const { user, token } = await authService.loginUser(req.body);
 
         // Risposta con il token
         res.status(200).json({

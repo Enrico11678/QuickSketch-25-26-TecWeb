@@ -14,6 +14,8 @@ router.get('/me', authenticateToken, sketchController.getMySketches);
 router.get('/:id', sketchController.getSketchDetails);
 
 // Endpoint: GET /api/sketches
+/// Usiamo authenticateOptional qui perchè anche chi non è loggato deve poter vedere la galleria degli sketches.
+// Se non l'avessimo usato gli utenti loggati sarebbero stati trattati come guests.
 router.get('/', authenticateOptional, sketchController.getGallery);
 
 export default router;

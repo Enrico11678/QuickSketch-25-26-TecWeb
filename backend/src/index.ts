@@ -6,6 +6,7 @@ import authRoutes from './routes/authRoutes.js';
 import wordRoutes from './routes/wordRoutes.js';
 import sketchRoutes from './routes/sketchRoutes.js';
 import guessRoutes from './routes/guessRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import { seedWords } from "./models/seeder.js";
 
 const app: Application = express();
@@ -19,6 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/words', wordRoutes);
 app.use('/api/sketches', sketchRoutes);
 app.use('/api/guesses', guessRoutes);
+app.use('/api/users', userRoutes);
 
 // Rotta di test
 app.get("/", (req: Request, res: Response) => {
