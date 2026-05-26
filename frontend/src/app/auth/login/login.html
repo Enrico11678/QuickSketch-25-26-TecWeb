@@ -1,0 +1,49 @@
+<div class="login-container">
+
+    <div class="left-panel">
+        <h1>ACCEDI E LIBERA<br>LA TUA CREATIVITÀ</h1>
+        <div class="illustration-placeholder">
+            <img src="ragazzoLogin.png" alt="Illustrazione Quicksketch" class="hero-image">
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="logo-container">
+            <img src="logoQuicksketch.png" alt="Logo Quicksketch" class="logo-img">
+        </div>
+
+        <h3 class="welcome-text">Bentornato!</h3>
+
+        <form class="login-form" (ngSubmit)="login()">
+            
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-envelope icon-left"></i>
+                    <input type="email" placeholder="Email" name="email" [(ngModel)]="email" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock icon-left"></i>
+                    
+                    <input [type]="showPassword() ? 'text' : 'password'" placeholder="Password" name="password" [(ngModel)]="password" required>
+                    
+                    <i class="fa-solid icon-right" 
+                       [class.fa-eye]="!showPassword()" 
+                       [class.fa-eye-slash]="showPassword()" 
+                       (click)="togglePassword()">
+                    </i>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">ACCEDI</button>
+        </form>
+
+        <div class="register-container">
+            <span>Non hai un account? </span>
+            <a routerLink="/registrazione" class="register-link">Registrati</a>
+        </div>
+    </div>
+
+</div>

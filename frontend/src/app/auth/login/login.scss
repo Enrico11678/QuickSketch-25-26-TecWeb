@@ -1,0 +1,179 @@
+/* Contenitore principale diviso a metà */
+.login-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    font-family: sans-serif;
+}
+
+/* Pannello a sinistra blu */
+.left-panel {
+    flex: 1;
+    background-color: #2b78e4;
+    background-image: url('/sfondoLeftPanel.jpeg'); 
+    background-size: cover; 
+    background-position: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+    }
+
+    .illustration-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .hero-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px; /* Evita che diventi gigantesca sugli schermi grandi */
+    object-fit: contain;
+  }
+}
+
+/* Pannello destro bianco */
+.right-panel {
+  flex: 1;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+
+  .logo-container {
+    margin-bottom: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .logo-img {
+      max-width: 260px; /* Imposta la larghezza che preferisci per il logo */
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .welcome-text {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+
+    .input-group {
+      margin-bottom: 20px;
+
+      /* Wrapper per gestire le icone in sovrapposizione */
+      .input-wrapper {
+        position: relative; 
+        display: flex;
+        align-items: center;
+
+        /* Icona fissa a sinistra (email/lucchetto) */
+        .icon-left {
+          position: absolute;
+          left: 15px;
+          color: #888;
+          font-size: 1.1rem;
+        }
+
+        /* Icona cliccabile a destra (occhiolino password) */
+        .icon-right {
+          position: absolute;
+          right: 15px;
+          color: #888;
+          font-size: 1.1rem;
+          cursor: pointer;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: #2b78e4;
+          }
+        }
+
+        input {
+          width: 100%;
+          padding: 15px 45px; 
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          font-size: 1rem;
+          box-sizing: border-box;
+          outline: none;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+            border-color: #2b78e4;
+          }
+        }
+      }
+    }
+
+    .btn-login {
+      background-color: #2b78e4;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 25px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+  }
+  
+  .register-container {
+    margin-top: 20px;
+    font-size: 1rem;
+    
+    .register-link {
+      color: #2b78e4;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+}
+
+/*  Responsive Design (Smartphone e Tablet) */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column; /* Incolonna i due pannelli */
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .left-panel {
+    flex: none; /* Disattiva la divisione 50/50 */
+    padding: 30px 20px;
+    
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .illustration-placeholder {
+      height: 200px; /* Rimpicciolisce il disegno su mobile */
+      width: 200px;
+    }
+  }
+
+  .right-panel {
+    padding: 30px 20px;
+  }
+}
