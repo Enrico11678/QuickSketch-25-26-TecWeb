@@ -1,0 +1,30 @@
+<nav class="navbar-container">
+    
+    <div class="nav-links left">
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        
+        @if (isLogged) {
+            <a routerLink="/gallery" routerLinkActive="active">Galleria</a>
+        }
+    </div>
+
+    <div class="nav-logo">
+        <img src="logoQuicksketch.png" alt="Quicksketch Logo" class="logo-img">
+    </div>
+
+    <div class="nav-links right">
+        @if (isLogged) {
+            
+            <a routerLink="/leaderboard" routerLinkActive="active">Classifica</a>
+            <a routerLink="/profile" routerLinkActive="active">Profilo</a>
+            <button class="btn-logout" (click)="logout()" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+            
+        } @else {
+            
+            <a routerLink="/gallery" routerLinkActive="active">Galleria</a>
+            
+        }
+    </div>
+</nav>

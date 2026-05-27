@@ -8,6 +8,7 @@ export const getUserProfileStats = async (userId: number) => {
         attributes: [
             'id',
             'username',
+            'email',
             'drawingsCount',
             'drawingsGuessedCount',
             'guessedCount',

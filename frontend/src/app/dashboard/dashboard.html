@@ -1,0 +1,41 @@
+<div class="dashboard-layout" [class.guest-mode]="!isLogged">
+      
+  <header class="navbar-section">
+    <app-navbar></app-navbar>
+  </header>
+
+  <aside class="left-column">
+    
+    @if (isLogged) {
+      
+      <app-action-panel></app-action-panel>
+      <app-profile-card></app-profile-card>
+      
+    } @else {
+      
+      <div class="guest-panel card" style="text-align: center; padding: 30px;">
+        <h2>Benvenuto su Quicksketch! 🎨</h2>
+        <p style="color: #666; margin-bottom: 25px; line-height: 1.5;">
+          Stai esplorando la galleria come ospite. 
+          Vuoi provare a indovinare questi disegni o crearne di tuoi?
+        </p>
+        <a routerLink="/login" class="btn-primary" style="display: block; text-decoration: none; margin-bottom: 15px; padding: 12px; border-radius: 20px; font-weight: bold; background-color: var(--primary-blue); color: white;">ACCEDI AL TUO ACCOUNT</a>
+        <a routerLink="/register" class="btn-secondary" style="display: block; text-decoration: none; padding: 12px; border-radius: 20px; font-weight: bold; border: 2px solid var(--secondary-orange); color: white;">REGISTRATI ORA</a>
+      </div>
+      
+    }
+
+  </aside>
+
+  <main class="center-column">
+    <div class="card">Qui andrà la galleria dei disegni</div>
+  </main>
+
+  @if (isLogged) {
+    <aside class="right-column">
+      <div class="card">Qui andrà la classifica Disegnatori</div>
+      <div class="card">Qui andrà la classifica Indovinatori</div>
+    </aside>
+  }
+
+</div>

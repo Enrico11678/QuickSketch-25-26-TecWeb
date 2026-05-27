@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { RouterLink, Router } from "@angular/router";
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
@@ -19,6 +19,15 @@ export class Login {
   showPassword = signal(false);
 
   private authService = inject(AuthService);
+  private router = inject(Router);
+
+  constructor() {
+    // Appena si apre la pagina di login, controlla se ha già il token
+    if (this.authService.isLoggedIn()) {
+      // Se è già loggato lo butta di nuovo nella dashboard
+      this.router.navigate(['/dashboard']);
+    }
+  }
 
   togglePassword() {
     this.showPassword.set(!this.showPassword());
@@ -31,7 +40,7 @@ export class Login {
     this.authService.login(this.email(), this.password()).subscribe({
       next: (rispostaDelServer) => {
         console.log('Login completato con successo!', rispostaDelServer);
-        alert('Accesso eseguito!');
+        this.router.navigate(['/dashboard']);
       },
       error: (errore) => {
         console.error('Errore di login:', errore);

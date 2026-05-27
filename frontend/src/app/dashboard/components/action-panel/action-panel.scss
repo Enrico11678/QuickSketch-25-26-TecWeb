@@ -1,0 +1,34 @@
+.action-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 15px; 
+  gap: 8px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.6rem; 
+    color: var(--text-dark);
+  }
+
+  p {
+    margin: 0 0 12px 0; 
+    color: var(--text-gray);
+    font-size: 0.95rem;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column; 
+    gap: 12px; /* Spazio tra i due bottoni */
+    width: 100%; /* Diamo al gruppo tutta la larghezza disponibile */
+    
+    
+    button {
+      width: 100%; 
+      padding: 10px 20px; 
+    }
+  }
+}

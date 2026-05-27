@@ -1,0 +1,35 @@
+<div class="card profile-container clickable" (click)="goToProfilePage()">
+  
+  <div class="profile-header">
+    <div class="avatar-box">
+        <img [src]="'https://robohash.org/' + username() + '?set=set4'" alt="Avatar" class="avatar-img">    
+    </div>
+    
+    <div class="user-info">
+      <h3>{{ username() }}</h3>
+      <p class="subtitle">Clicca per i dettagli</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="profile-stats">
+    <div class="stat-box">
+      <span class="stat-number">{{ drawingsCount() }}</span>
+      <span class="stat-label">Disegnati</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">{{ guessedCount() }}</span>
+      <span class="stat-label">Disegni indovinati</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">{{ drawingsGuessedCount() }}</span>
+      <span class="stat-label">Tuoi disegni indovinati</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">{{ failedCount() }}</span>
+      <span class="stat-label">Errori</span>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,87 @@
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--white);
+  padding: 0px 60px;
+  border-radius: 20px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex: 1;
+
+  &.left {
+    justify-content: flex-start;
+  }
+
+  &.right {
+    justify-content: flex-end;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--primary-blue);
+    }
+
+    /* Classe automatica di Angular quando siamo su quella pagina */
+    &.active {
+      color: var(--primary-blue);
+      font-weight: bold;
+    }
+  }
+}
+
+.nav-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .logo-img {
+    height: 90px; /* Adatta l'altezza del logo */
+    width: auto;
+    object-fit: contain;
+  }
+}
+
+.btn-logout {
+  background: none;
+  border: none;
+  color: var(--text-gray);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    color: #e74c3c; /* Rosso per il logout */
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive per schermi piccoli */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .nav-links {
+    gap: 20px;
+    width: 100%;
+    justify-content: center !important;
+  }
+}
