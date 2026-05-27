@@ -219,3 +219,48 @@
     cursor: not-allowed;
   }
 }
+
+/* Responsività (Tablet e Smartphone) */
+@media (max-width: 850px) {
+  .draw-page-wrapper {
+    padding: 15px 10px;
+  }
+
+  /* Impila l'intestazione in verticale */
+  .draw-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+    
+    /* Mettiamo la parola da indovinare in cima a tutto */
+    .word-container {
+      order: -1; 
+    }
+  }
+
+  /* Adatta la Canvas allo schermo e blocca lo scroll del dito */
+  .canvas-container {
+    padding: 10px;
+  }
+
+  .sketch-canvas {
+    max-width: 100%;
+    height: auto;
+    touch-action: none; /* Cruciale: evita che la pagina scorra se l'utente disegna dal telefono */
+  }
+
+  /* Impila gli strumenti e manda a capo i colori */
+  .tools-panel {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .colors {
+    flex-wrap: wrap; /* Manda i bottoni a capo se non c'è spazio */
+    justify-content: center;
+  }
+
+  .clear-btn {
+    width: 100%; /* Il tasto cancella prende tutta la larghezza in basso */
+  }
+}
