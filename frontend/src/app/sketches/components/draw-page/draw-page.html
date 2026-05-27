@@ -1,0 +1,82 @@
+<div class="draw-page-wrapper">
+
+  @if (!isGameStarted()) {
+    <div class="selection-container card">
+      <div class="selection-header">
+        <a routerLink="/dashboard" class="back-btn">❮ Torna alla Dashboard</a>
+        <h2>Scegli una parola da disegnare 🎨</h2>
+        <p>Seleziona un termine: avrai un tempo limitato di 60 secondi per rappresentarlo.</p>
+      </div>
+
+      @if (isLoading()) {
+        <div class="loading-state">Recupero parole disponibili dal server...</div>
+      } @else if (wordsList().length === 0) {
+        <div class="empty-state">
+          <p>Ottimo lavoro! Hai già realizzato uno sketch per tutte le parole disponibili.</p>
+          <a routerLink="/dashboard" class="btn-primary">Torna alla Dashboard</a>
+        </div>
+      } @else {
+        <div class="words-grid">
+          @for (word of wordsList(); track word.id) {
+            <button class="word-card-btn" (click)="selectWordAndStart(word)">
+              {{ word.text }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @else {
+    <div class="draw-header card">
+      <a routerLink="/dashboard" class="back-btn">
+        <span class="icon">❮</span> Abbandona
+      </a>
+      
+      <div class="word-container">
+        <p>Devi disegnare:</p>
+        <h2 class="mystery-word">{{ selectedWord()?.text }}</h2> 
+      </div>
+
+      <div class="timer-container" [style.opacity]="timerExpired() ? '0.6' : '1'">
+        <span class="timer-icon">⏱️</span>
+        <span class="time-left">{{ formattedTime() }}</span>
+      </div>
+
+      <button 
+        class="btn-primary save-btn" 
+        (click)="saveSketch()" 
+        [disabled]="!isCanvasDirty || isSaving()">
+        {{ isSaving() ? 'Salvataggio...' : 'Salva Sketch' }}
+      </button>
+    </div>
+
+    <div class="canvas-container card">
+      @if (timerExpired()) {
+        <div class="canvas-overlay">
+          <p>⏳ Tempo Scaduto! Salva lo sketch o abbandona.</p>
+        </div>
+      }
+      <canvas #drawingCanvas width="800" height="500" class="sketch-canvas"></canvas>
+    </div>
+
+    <div class="tools-panel card">
+      <div class="colors">
+      <button class="color-btn black" [class.active]="selectedColor() === '#1e293b'" (click)="changeColor('#1e293b')" [disabled]="timerExpired()" title="Nero"></button>
+      <button class="color-btn red" [class.active]="selectedColor() === '#ef4444'" (click)="changeColor('#ef4444')" [disabled]="timerExpired()" title="Rosso"></button>
+      <button class="color-btn blue" [class.active]="selectedColor() === '#3b82f6'" (click)="changeColor('#3b82f6')" [disabled]="timerExpired()" title="Blu"></button>
+      <button class="color-btn green" [class.active]="selectedColor() === '#10b981'" (click)="changeColor('#10b981')" [disabled]="timerExpired()" title="Verde"></button>
+      
+      <button class="color-btn yellow" [class.active]="selectedColor() === '#eab308'" (click)="changeColor('#eab308')" [disabled]="timerExpired()" title="Giallo"></button>
+      <button class="color-btn orange" [class.active]="selectedColor() === '#f97316'" (click)="changeColor('#f97316')" [disabled]="timerExpired()" title="Arancione"></button>
+      <button class="color-btn purple" [class.active]="selectedColor() === '#a855f7'" (click)="changeColor('#a855f7')" [disabled]="timerExpired()" title="Viola"></button>
+      <button class="color-btn pink" [class.active]="selectedColor() === '#ec4899'" (click)="changeColor('#ec4899')" [disabled]="timerExpired()" title="Rosa"></button>
+    </div>
+      
+      <div class="actions">
+        <button class="btn-secondary clear-btn" (click)="clearCanvas()" [disabled]="timerExpired() || !isCanvasDirty">🗑️ Cancella tutto</button>
+      </div>
+    </div>
+  }
+
+</div>

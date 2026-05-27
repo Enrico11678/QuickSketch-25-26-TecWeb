@@ -3,6 +3,7 @@ import { Login } from './auth/login/login'
 import { Register } from './auth/register/register';
 import { Dashboard } from './dashboard/dashboard';
 import { ProfilePage } from './profile-page/profile-page';
+import { DrawPage } from './sketches/components/draw-page/draw-page';
 import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
@@ -10,5 +11,6 @@ export const routes: Routes = [
     { path: 'register', component: Register },
     { path: 'dashboard', component: Dashboard },
     { path: 'profile', component: ProfilePage, canActivate: [authGuard] },
+    { path: 'draw', component: DrawPage, canActivate: [authGuard] },
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];

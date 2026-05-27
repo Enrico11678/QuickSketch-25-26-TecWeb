@@ -1,0 +1,221 @@
+.draw-page-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background-color: var(--white, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+}
+
+/* Griglia scelte parole */
+.selection-container {
+  text-align: center;
+  
+  .selection-header {
+    margin-bottom: 30px;
+    
+    .back-btn {
+      text-decoration: none;
+      color: #64748b;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 15px;
+      &:hover { color: #1e293b; }
+    }
+    
+    h2 { font-size: 1.8rem; color: #1e293b; margin: 0 0 10px 0; }
+    p { color: #64748b; margin: 0; }
+  }
+
+  .loading-state, .empty-state {
+    padding: 40px;
+    color: #64748b;
+    font-size: 1.1rem;
+  }
+
+  .words-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+  }
+
+  .word-card-btn {
+    background-color: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--primary-blue, #2b78e4);
+      border-color: var(--primary-blue, #2b78e4);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(43, 120, 228, 0.2);
+    }
+  }
+}
+
+/* Intestazione e Canvas*/
+.draw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .back-btn {
+    text-decoration: none;
+    color: var(--text-gray, #888);
+    font-weight: bold;
+    transition: color 0.2s ease;
+    &:hover { color: var(--text-dark, #333); }
+  }
+
+  .word-container {
+    text-align: center;
+    p { 
+      margin: 0; 
+      color: var(--text-gray, #888); 
+      font-size: 0.9rem; 
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+    }
+    .mystery-word { 
+      margin: 5px 0 0 0; 
+      color: var(--primary-blue, #2b78e4); 
+      font-size: 2rem; 
+      font-weight: 900; 
+    }
+  }
+
+  .timer-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff1f2;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 2px solid #fda4af;
+
+    .timer-icon {
+      font-size: 1.5rem;
+    }
+
+    .time-left {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #e11d48;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .save-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    /* Stile tasto disabilitato */
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* Contenitore Canvas */
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f5f9;
+  padding: 20px;
+  position: relative; /* Necessario per l'overlay del tempo scaduto */
+
+  /* Messaggio di Tempo Scaduto */
+  .canvas-overlay {
+    position: absolute;
+    top: 20px; left: 20px; right: 20px; bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    
+    p {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #e11d48;
+      background-color: white;
+      padding: 15px 30px;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+  }
+}
+
+.sketch-canvas {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  cursor: crosshair;
+  border: 1px solid #e2e8f0;
+}
+
+/* Barra Strumenti */
+.tools-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.colors {
+  display: flex;
+  gap: 15px;
+
+  .color-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover:not(:disabled) { transform: scale(1.1); }
+    &.active { border-color: #cbd5e1; box-shadow: 0 0 0 2px #fff inset; }
+
+    &.black { background-color: #1e293b; }
+    &.red { background-color: #ef4444; }
+    &.blue { background-color: #3b82f6; }
+    &.green { background-color: #10b981; }
+    &.yellow { background-color: #eab308; }
+    &.orange { background-color: #f97316; }
+    &.purple { background-color: #a855f7; }
+    &.pink { background-color: #ec4899; }
+
+    /* Colori disabilitati quando scade il tempo */
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+  }
+}
+
+.clear-btn {
+  padding: 10px 20px;
+  font-weight: bold;
+  /* Cancella disabilitato */
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
