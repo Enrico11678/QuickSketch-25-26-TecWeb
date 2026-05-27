@@ -21,4 +21,15 @@ export class AuthService {
     // e restituisco l'Observable (il "sottoscrivibile") al componente
     return this.http.post(`${this.apiUrl}/login`, body);
   }
+
+  register(usernameUtente: string, emailUtente: string, passwordUtente: string) {
+    const body = {
+      username: usernameUtente,
+      email: emailUtente,
+      password: passwordUtente
+    };
+
+    // Faccio una richiesta POST all'indirizzo http://localhost:3000/api/auth/register
+    return this.http.post(`${this.apiUrl}/register`, body);
+  }
 }

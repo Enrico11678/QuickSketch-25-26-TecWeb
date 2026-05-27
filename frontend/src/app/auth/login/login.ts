@@ -7,7 +7,7 @@ import { AuthService } from '../auth.service';
   selector: 'app-login',
   imports: [RouterLink, FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.scss',
+  styleUrl: '../auth.scss',
 })
 export class Login {
 
@@ -15,7 +15,7 @@ export class Login {
   email = signal('');
   password = signal('');
 
-  // Variabile per controllare se la paswword è visibile o no
+  // Variabile per controllare se la password è visibile o no
   showPassword = signal(false);
 
   private authService = inject(AuthService);
@@ -24,7 +24,7 @@ export class Login {
     this.showPassword.set(!this.showPassword());
   }
 
-  // Aggiunta di questa funzione per non far arrabbiare Angular
+  // Funzione che scatta quando viene premuto il pulsante "Accedi"
   login() {
     console.log('Sto inviando i dati al server...');
 
