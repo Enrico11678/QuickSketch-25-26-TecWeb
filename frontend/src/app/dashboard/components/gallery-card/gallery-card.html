@@ -1,0 +1,39 @@
+<div class="gallery-card">
+
+    @if (isLoading()) {
+        <div class="status-card card">
+            <p>Recupero i disegni dal server...</p>
+        </div>
+    } @else if (sketchesList().length === 0) {
+        <div class="status-card card">
+            <p>Nessuno ha ancora pubblicato nulla. Sii il primo!</p>
+        </div>
+    } @else {
+
+        <div class="sketches-grid">
+            @for (sketch of sketchesList(); track sketch.id) {
+                <div class="sketch-card card">
+
+                    <div class="sketch-header">
+                        <span class="author-name">{{ sketch.author?.username || 'Anonimo' }}</span>
+                        <span class="sketch-date">{{ sketch.createdAt | date:'dd MMM HH:mm' }}</span>
+                    </div>
+
+                    <div class="img-wrapper">
+                        <img [src]="sketch.content" alt="Disegno di {{ sketch.author?.username }}">
+                    </div>
+
+                    <div class="sketch-actions">
+                        @if (isLogged()) {
+                            <button class="btn-guess">Svela Parola / Indovina</button>
+                        } @else {
+                            <a routerLink="/login" class="btn-guess guest-btn">Accedi per indovinare</a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+    }
+
+</div>

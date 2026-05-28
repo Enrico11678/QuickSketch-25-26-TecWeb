@@ -40,6 +40,12 @@ export class ProfileCard implements OnInit {
       error: (errore) => {
         console.error('Errore nel recupero dei dati del profilo:', errore);
         this.username.set('Errore di caricamento');
+
+        // Protezione contro l'utente fantasma
+        if (errore.status === 404 || errore.status === 401) {
+          localStorage.removeItem('auth_token');
+          this.router.navigate(['/login']);
+        }
       }
     });
   }

@@ -68,3 +68,17 @@ html, body {
     opacity: 0.9;
   }
 }
+
+.page-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px; /* Spazio dai bordi dello schermo */
+  gap: 20px; /* Spazio vitale tra la Navbar e il contenuto centrale */
+}
+
+.navbar-section {
+  width: 100%;
+  max-width: 1440px; /* Stessa larghezza massima della dashboard */
+  margin: 0 auto; /* La centra perfettamente nello schermo */
+}

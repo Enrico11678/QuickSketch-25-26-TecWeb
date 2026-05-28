@@ -1,77 +1,82 @@
-<div class="profile-page-wrapper">
-  
-  <a routerLink="/dashboard" class="back-btn">⬅ Torna alla Dashboard</a>
+<div class="page-layout">
 
-  <div class="card header-card">
-    <div class="avatar-container">
-      <img [src]="'https://robohash.org/' + username() + '?set=set4'" alt="Avatar" class="avatar-large">
-    </div>
+  <header class="navbar-section">
+    <app-navbar></app-navbar>
+  </header>
+
+  <div class="profile-container">
     
-    <div class="header-info">
-      <h1>{{ username() }}</h1>
-      <p class="email-text">{{ email() }}</p>
-      <p class="role-text">Membro di Quicksketch</p>
-    </div>
-  </div>
-
-  <div class="stats-grid">
-    <div class="card stat-detail">
-      <div class="stat-icon">🎨</div>
-      <div class="stat-testo">
-        <h3>{{ drawingsCount() }}</h3>
-        <p>Sketch Disegnati</p>
+    <div class="card header-card">
+      <div class="avatar-container">
+        <img [src]="'https://robohash.org/' + username() + '?set=set4'" alt="Avatar" class="avatar-large">
+      </div>
+      
+      <div class="header-info">
+        <h1>{{ username() }}</h1>
+        <p class="email-text">{{ email() }}</p>
+        <p class="role-text">Membro di Quicksketch</p>
       </div>
     </div>
 
-    <div class="card stat-detail">
-      <div class="stat-icon">💡</div>
-      <div class="stat-testo">
-        <h3>{{ guessedCount() }}</h3>
-        <p>Parole Indovinate</p>
+    <div class="stats-grid">
+      <div class="card stat-detail">
+        <div class="stat-icon">🎨</div>
+        <div class="stat-testo">
+          <h3>{{ drawingsCount() }}</h3>
+          <p>Sketch Disegnati</p>
+        </div>
+      </div>
+
+      <div class="card stat-detail">
+        <div class="stat-icon">💡</div>
+        <div class="stat-testo">
+          <h3>{{ guessedCount() }}</h3>
+          <p>Parole Indovinate</p>
+        </div>
+      </div>
+
+      <div class="card stat-detail">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-testo">
+          <h3>{{ drawingsGuessedCount() }}</h3>
+          <p>Tuoi Disegni Indovinati</p>
+        </div>
+      </div>
+
+      <div class="card stat-detail">
+        <div class="stat-icon">❌</div>
+        <div class="stat-testo">
+          <h3>{{ failedCount() }}</h3>
+          <p>Tentativi Falliti</p>
+        </div>
       </div>
     </div>
 
-    <div class="card stat-detail">
-      <div class="stat-icon">🎯</div>
-      <div class="stat-testo">
-        <h3>{{ drawingsGuessedCount() }}</h3>
-        <p>Tuoi Disegni Indovinati</p>
-      </div>
-    </div>
-
-    <div class="card stat-detail">
-      <div class="stat-icon">❌</div>
-      <div class="stat-testo">
-        <h3>{{ failedCount() }}</h3>
-        <p>Tentativi Falliti</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card history-section">
-    <h2>Il tuo Storico Sketch</h2>
-    
-    @if (storicoDisegni().length === 0) {
-      <div class="empty-state">
-        <p>Non hai ancora creato nessun disegno. Inizia a giocare!</p>
-      </div>
-    } @else {
-      <div class="history-grid">
-        
-        @for (sketch of storicoDisegni(); track sketch.id) {
-          <div class="sketch-card">
-            <img [src]="sketch.content" alt="Il mio disegno" class="sketch-img">
-            
-            <div class="sketch-info">
-              <strong class="sketch-word">{{ sketch.word?.text }}</strong>
+    <div class="card history-section">
+      <h2>Il tuo Storico Sketch</h2>
+      
+      @if (storicoDisegni().length === 0) {
+        <div class="empty-state">
+          <p>Non hai ancora creato nessun disegno. Inizia a giocare!</p>
+        </div>
+      } @else {
+        <div class="history-grid">
+          
+          @for (sketch of storicoDisegni(); track sketch.id) {
+            <div class="sketch-card">
+              <img [src]="sketch.content" alt="Il mio disegno" class="sketch-img">
               
-              <p class="sketch-stats">Creato il: {{ sketch.createdAt | date:'dd/MM/yyyy' }}</p>
+              <div class="sketch-info">
+                <strong class="sketch-word">{{ sketch.word?.text }}</strong>
+                
+                <p class="sketch-stats">Creato il: {{ sketch.createdAt | date:'dd/MM/yyyy' }}</p>
+              </div>
             </div>
-          </div>
-        }
-        
-      </div>
-    }
-  </div>
+          }
+          
+        </div>
+      }
+    </div>
 
+  </div>
 </div>

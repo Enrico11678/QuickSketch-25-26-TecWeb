@@ -1,19 +1,21 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { SketchService } from '../sketches/services/sketch.service';
+import { Navbar } from '../dashboard/components/navbar/navbar';
 
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [DatePipe, Navbar],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss'
 })
 export class ProfilePage implements OnInit {
   private authService = inject(AuthService);
   private sketchService = inject(SketchService);
+  private router = inject(Router);
 
   // Dati utente
   username = signal<string>('Caricamento...');
@@ -42,7 +44,14 @@ export class ProfilePage implements OnInit {
         this.drawingsGuessedCount.set(utente.drawingsGuessedCount || 0);
         this.failedCount.set(utente.failedCount || 0);
       },
-      error: (err) => console.error('Errore caricamento profilo', err)
+      error: (err) => {
+        console.error('Errore caricamento profilo', err)
+        // Protezione contro l'utente fantasma
+        if (err.status === 404 || err.status === 401) {
+          localStorage.removeItem('auth_token');
+          this.router.navigate(['/login']);
+        }
+      }
     });
   }
 

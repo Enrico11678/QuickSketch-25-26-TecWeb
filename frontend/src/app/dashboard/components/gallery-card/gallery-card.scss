@@ -1,0 +1,112 @@
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.status-card {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-gray, #64748b);
+  font-weight: 600;
+  background-color: var(--white, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.sketches-grid {
+  display: grid;
+  /* Griglia fluida per i disegni */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.sketch-card {
+  background-color: var(--white, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .sketch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .author-name {
+      font-weight: 800;
+      color: var(--text-dark, #1e293b);
+      font-size: 1.05rem;
+    }
+    
+    .sketch-date {
+      font-size: 0.85rem;
+      color: var(--text-gray, #94a3b8);
+    }
+  }
+
+  .img-wrapper {
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    padding: 10px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      max-height: 200px; 
+      object-fit: contain; 
+      display: block;
+      background-color: white;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0; 
+    }
+  }
+
+  .sketch-actions {
+    .btn-guess {
+      display: block; 
+      width: 100%;
+      text-align: center; 
+      padding: 10px;
+      border: none;
+      background-color: #f1f5f9;
+      color: var(--primary-blue, #2b78e4);
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none; 
+      transition: background-color 0.2s, transform 0.1s;
+
+      &:hover {
+        background-color: #e2e8f0;
+      }
+      
+      &:active {
+        transform: scale(0.98);
+      }
+      
+      /* Stile specifico per il bottone degli ospiti */
+      &.guest-btn {
+        background-color: #fff1f2;
+        color: #e11d48;
+        border: 1px dashed #fda4af;
+        
+        &:hover {
+          background-color: #ffe4e6;
+        }
+      }
+    }
+  }
+}

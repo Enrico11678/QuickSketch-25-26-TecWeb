@@ -1,24 +1,16 @@
-.dashboard-layout {
+/* Usiamo una griglia interna al page-layout per le 3 colonne */
+.dashboard-grid {
   display: grid;
-  /* Definisco 3 colonne di base */
   grid-template-columns: 320px 1fr 340px;
-  grid-template-rows: auto 1fr; 
   gap: 25px; 
-  padding: 25px;
+  width: 100%;
   max-width: 1440px;
-  margin: 0 auto; 
-  min-height: 100vh;
-
-  /* --- NUOVA REGOLA PER GLI OSPITI --- */
+  margin: 0 auto;
+  
+  /* Sezione ospiti: 2 colonne */
   &.guest-mode {
-    /* Rimuoviamo la terza colonna (i 340px) */
     grid-template-columns: 320px 1fr;
   }
-}
-
-/* La Navbar occupa tutta la prima riga */
-.navbar-section {
-  grid-column: 1 / -1; 
 }
 
 /* Colonna Sinistra */
@@ -43,18 +35,10 @@
 
 /* Responsive: se lo schermo è piccolo (tablet/smartphone), incolonna tutto */
 @media (max-width: 1024px) {
-  .dashboard-layout {
+  .dashboard-grid {
     grid-template-columns: 1fr;
-    /* Anche in mobile togliamo l'effetto della guest-mode */
     &.guest-mode {
       grid-template-columns: 1fr;
     }
-    grid-template-rows: auto;
-    padding: 15px;
-    gap: 15px;
-  }
-
-  .navbar-section, .left-column, .center-column, .right-column {
-    grid-column: unset;
   }
 }

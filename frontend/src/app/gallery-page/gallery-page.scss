@@ -1,0 +1,29 @@
+.gallery-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .gallery-header {
+    text-align: center;
+    padding: 30px; 
+    border-radius: 16px; 
+    background-color: var(--white, #ffffff);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    h1 {
+      font-size: 2.2rem;
+      color: var(--text-dark, #1e293b);
+      margin: 0 0 10px 0;
+      font-weight: 900;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: var(--text-gray, #64748b);
+      margin: 0;
+    }
+  }
+}
