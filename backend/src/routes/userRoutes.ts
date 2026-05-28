@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getMyStats, getPlayersLeaderboard, getDesignersLeaderboard } from "../controllers/userController.js";
+import { getMyStats, getPlayersLeaderboard, getDesignersLeaderboard, deleteAccount } from "../controllers/userController.js";
 import { authenticateToken } from "../middlewares/authMiddleware.js";
 
 const router = Router();
@@ -16,5 +16,8 @@ router.get('/leaderboard/designers', getDesignersLeaderboard);
 
 // Endpoint: GET /api/users/me/stats
 router.get('/me/stats', authenticateToken, getMyStats);
+
+// Endpoint: GET /api/users/me
+router.delete('/me', authenticateToken, deleteAccount);
 
 export default router;

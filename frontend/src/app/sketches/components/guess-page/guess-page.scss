@@ -1,0 +1,280 @@
+.guess-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 40px;
+}
+
+/* Stati di Caricamento ed Errore */
+.loading-state, .error-state {
+  text-align: center;
+  padding: 60px 20px;
+  
+  .spinner {
+    font-size: 3rem;
+    animation: bounce 1s infinite;
+    margin-bottom: 20px;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* Griglia Principale */
+.game-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* Stile Polaroid (Colonna Sinistra) */
+.polaroid-card {
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+
+  .polaroid-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #f1f5f9;
+      object-fit: cover;
+    }
+
+    .author-info {
+      display: flex;
+      flex-direction: column;
+
+      .author-name {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: var(--primary-blue);
+      }
+
+      .sketch-date {
+        font-size: 0.85rem;
+        color: var(--text-gray);
+      }
+    }
+  }
+
+  .image-container {
+    width: 100%;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f8fafc;
+    
+    .sketch-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      background-color: white;
+    }
+  }
+}
+
+/* Area di Gioco (Colonna Destra) */
+.play-section {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--text-dark);
+  }
+
+  .attempts-counter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    padding: 15px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+
+    strong {
+      font-size: 1.4rem;
+      color: var(--primary-blue);
+      
+      &.danger {
+        color: #ef4444; /* Rosso se mancano pochi tentativi */
+      }
+    }
+  }
+
+  /* Storico Tentativi */
+  .guesses-history {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 10px;
+
+    /* Scrollbar stilizzata */
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+    .no-guesses {
+      text-align: center;
+      color: var(--text-gray);
+      font-style: italic;
+      margin: 20px 0;
+    }
+
+    .guesses-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .guess-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        border-radius: 30px;
+        font-weight: 500;
+        animation: slideIn 0.3s ease-out forwards;
+
+        &.wrong {
+          background-color: #fee2e2;
+          color: #b91c1c;
+          border: 1px solid #fca5a5;
+          .guess-text {
+            text-decoration: line-through;
+          }
+        }
+
+        &.correct {
+          background-color: #dcfce3;
+          color: #15803d;
+          border: 1px solid #86efac;
+          font-weight: bold;
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+
+  /* Area Input */
+  .input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+
+    input {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 30px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: var(--primary-blue);
+      }
+      &:disabled {
+        background-color: #f1f5f9;
+        cursor: not-allowed;
+      }
+    }
+
+    button {
+      padding: 0 30px;
+      border-radius: 30px;
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .error-text {
+    color: #ef4444;
+    font-size: 0.9rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  .actions-area {
+    text-align: center;
+    margin-top: 10px;
+    
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-gray);
+      border: 1px solid #cbd5e1;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background-color: #f8fafc;
+        color: var(--text-dark);
+      }
+    }
+  }
+
+  /* Aree di Fine Partita */
+  .result-area {
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 12px;
+    margin-top: 10px;
+
+    h3 { margin: 0 0 15px 0; font-size: 1.8rem; }
+    p { margin: 0 0 20px 0; font-size: 1.1rem; }
+
+    &.success {
+      background-color: #dcfce3;
+      color: #15803d;
+      border: 2px solid #86efac;
+    }
+
+    &.failure {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 2px solid #fca5a5;
+    }
+  }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive per Smartphone */
+@media (max-width: 900px) {
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .input-area {
+    flex-direction: column;
+    
+    button {
+      padding: 15px;
+    }
+  }
+}

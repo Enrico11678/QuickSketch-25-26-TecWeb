@@ -65,4 +65,22 @@ export class ProfilePage implements OnInit {
       error: (err) => console.error('Errore nel recupero dello storico disegni:', err)
     });
   }
+
+  deleteAccount() {
+  const confirmMsg = "ATTENZIONE: Questa azione è irreversibile. Sei davvero sicuro di voler eliminare il tuo account?";
+  
+  if (window.confirm(confirmMsg)) {
+    // Inietto AuthService 
+    this.authService.deleteAccount().subscribe({
+      next: () => {
+        this.authService.logout(); // Pulisce il token
+        this.router.navigate(['/login']); // Redirect al login
+      },
+      error: (err) => {
+        console.error("Errore eliminazione:", err);
+        alert("Errore durante l'eliminazione dell'account.");
+      }
+    });
+  }
+}
 }

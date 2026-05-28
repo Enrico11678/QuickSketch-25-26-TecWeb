@@ -29,7 +29,7 @@ export const getGallery = async (req: Request, res: Response, next: NextFunction
         let sketches;
 
         if (authReq.user) {
-            sketches = await sketchService.getPlayableSketches(authReq.user.userId);
+            sketches = await sketchService.getGallerySketchesForUser(authReq.user.userId);
         } else {
             sketches = await sketchService.getAllSketchesForGuests();
         }
@@ -64,6 +64,25 @@ export const getMySketches = async (req: AuthRequest, res: Response, next: NextF
     try {
         const userId = req.user!.userId;
         const sketches = await sketchService.getMySketches(userId);
+
+        res.status(200).json({
+            status: "success",
+            results: sketches.length,
+            data: { sketches }
+        });
+    } catch(error) {
+        next(error);
+    }
+};
+
+// Recupera SOLO gli sketch che l'utente loggato può giocare
+// (Esclude i propri, quelli già indovinati e quelli persi)
+export const getPlayableSketches = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        const userId = req.user!.userId;
+        
+        // Richiama la funzione che hai già scritto in sketchService
+        const sketches = await sketchService.getPlayableSketches(userId);
 
         res.status(200).json({
             status: "success",

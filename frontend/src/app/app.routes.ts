@@ -5,6 +5,7 @@ import { Dashboard } from './dashboard/dashboard';
 import { ProfilePage } from './profile-page/profile-page';
 import { DrawPage } from './sketches/components/draw-page/draw-page';
 import { GalleryPage } from './gallery-page/gallery-page';
+import { GuessPage } from './sketches/components/guess-page/guess-page';
 import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
@@ -14,5 +15,6 @@ export const routes: Routes = [
     { path: 'gallery', component: GalleryPage },
     { path: 'profile', component: ProfilePage, canActivate: [authGuard] },
     { path: 'draw', component: DrawPage, canActivate: [authGuard] },
+    { path: 'guess/:id', component: GuessPage, canActivate: [authGuard] },
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];

@@ -50,19 +50,18 @@ export class AuthService {
 
   // Recupera i dati del profilo dell'utente loggato
   getProfile() {
-    // Prendiamo il token dal localStorage
-    const token = localStorage.getItem('auth_token');
-
-    // Facciamo la chiamata GET allegando il token negli Header
-    return this.http.get<any>('http://localhost:3000/api/users/me/stats', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    // Basta solo l'URL! L'interceptor aggiungerà automaticamente il token in background
+    return this.http.get<any>('http://localhost:3000/api/users/me/stats');
   }
 
   // Rimuove il token
   logout() {
     localStorage.removeItem('auth_token');
+  }
+
+  // Elimina l'account
+  deleteAccount() {
+    // Uso l'URL base dei profili utente, non quello dell'auth
+    return this.http.delete('http://localhost:3000/api/users/me');
   }
 }

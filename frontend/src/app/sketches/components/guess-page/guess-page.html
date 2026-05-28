@@ -1,0 +1,108 @@
+<div class="page-layout">
+  
+  <header class="navbar-section">
+    <app-navbar></app-navbar>
+  </header>
+
+  <div class="guess-container">
+    
+    @if (isLoading()) {
+      <div class="loading-state card">
+        <div class="spinner">✏️</div>
+        <h2>Sto preparando i pennelli...</h2>
+        <p>Caricamento del disegno in corso.</p>
+      </div>
+    } 
+    @else if (errorMessage() && !sketch()) {
+      <div class="error-state card">
+        <h2>Oops! 🎨</h2>
+        <p>{{ errorMessage() }}</p>
+        <button class="btn-primary" routerLink="/dashboard">Torna alla Dashboard</button>
+      </div>
+    } 
+    @else if (sketch()) {
+      <div class="game-grid">
+        
+        <div class="sketch-section">
+          <div class="card polaroid-card">
+            <div class="polaroid-header">
+              <img [src]="'https://robohash.org/' + sketch().author?.username + '?set=set4'" alt="Avatar" class="author-avatar">
+              <div class="author-info">
+                <span class="author-name">{{ sketch().author?.username }}</span>
+                <span class="sketch-date">{{ sketch().createdAt | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </div>
+            
+            <div class="image-container">
+              <img [src]="sketch().content" alt="Disegno da indovinare" class="sketch-image">
+            </div>
+          </div>
+        </div>
+
+        <div class="play-section card">
+          <h2>Indovina la parola!</h2>
+          
+          <div class="attempts-counter">
+            <span>Tentativi rimasti:</span>
+            <strong [class.danger]="attemptsLeft() <= 3">{{ attemptsLeft() }}</strong>
+          </div>
+
+          <div class="guesses-history">
+            @if (previousGuesses().length === 0) {
+              <p class="no-guesses">Ancora nessun tentativo. Rompi il ghiaccio!</p>
+            } @else {
+              <ul class="guesses-list">
+                @for (guess of previousGuesses(); track guess.id) {
+                  <li class="guess-item" [ngClass]="{'correct': guess.isCorrect, 'wrong': !guess.isCorrect}">
+                    <span class="guess-text">{{ guess.attemptText }}</span>
+                    <span class="guess-icon">{{ guess.isCorrect ? '✅' : '❌' }}</span>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+
+          @if (gameState() === 'playing') {
+            <div class="input-area">
+              <input 
+                type="text" 
+                placeholder="Scrivi qui la tua risposta..." 
+                [(ngModel)]="guessInput" 
+                (keyup.enter)="submitGuess()"
+                [disabled]="attemptsLeft() <= 0"
+              >
+              <button class="btn-primary" (click)="submitGuess()" [disabled]="!guessInput().trim()">
+                Invia
+              </button>
+            </div>
+            
+            @if (errorMessage()) {
+              <p class="error-text">{{ errorMessage() }}</p>
+            }
+
+            <div class="actions-area">
+              <button class="btn-secondary" (click)="skipSketch()">Non lo so, cambiamo disegno ⏭️</button>
+            </div>
+          }
+
+          @if (gameState() === 'won') {
+            <div class="result-area success">
+              <h3>🎉 Bravissimo!</h3>
+              <p>Hai indovinato! La parola era proprio <strong>{{ solutionText() }}</strong>.</p>
+              <button class="btn-primary" (click)="skipSketch()">Gioca Ancora</button>
+            </div>
+          }
+
+          @if (gameState() === 'lost') {
+            <div class="result-area failure">
+              <h3>Game Over 😢</h3>
+              <p>Hai esaurito i tentativi. La parola corretta era <strong>{{ solutionText() }}</strong>.</p>
+              <button class="btn-primary" (click)="skipSketch()">Prova con un altro</button>
+            </div>
+          }
+
+        </div>
+      </div>
+    }
+  </div>
+</div>

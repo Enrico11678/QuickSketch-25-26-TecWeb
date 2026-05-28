@@ -10,6 +10,9 @@ router.post('/', authenticateToken, sketchController.createSketch);
 // Endpoint: GET /api/sketches/me
 router.get('/me', authenticateToken, sketchController.getMySketches);
 
+// Endpoint: GET /api/sketches/playable
+router.get('/playable', authenticateToken, sketchController.getPlayableSketches);
+
 //Endpoint: GET /api/sketches/:id
 router.get('/:id', sketchController.getSketchDetails);
 

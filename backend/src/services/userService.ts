@@ -60,3 +60,15 @@ export const getTopDesigners = async (limit: number = 10) => {
         limit
     });
 };
+
+export const deleteUserAccount = async (userId: number) => {
+    const user = await User.findByPk(userId);
+    if (!user) {
+        throw new NotFoundError("Utente non trovato");
+    }
+
+    // Grazie a 'onDelete: SET NULL', Sequelize aggiornerà automaticamente 
+    // tutti gli sketch dell'utente impostando author_id a NULL nel database.
+    await user.destroy();
+    return true;
+};

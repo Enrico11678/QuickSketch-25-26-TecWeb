@@ -25,12 +25,22 @@
 
                     <div class="sketch-actions">
                         @if (isLogged()) {
-                            <button class="btn-guess">Svela Parola / Indovina</button>
+                            
+                            @if (sketch.playStatus === 'own') {
+                                <div class="status-badge own">🖌️ Il tuo disegno</div>
+                            } @else if (sketch.playStatus === 'guessed') {
+                                <div class="status-badge guessed">✅ Già indovinato</div>
+                            } @else if (sketch.playStatus === 'exhausted') {
+                                <div class="status-badge exhausted">❌ Tentativi finiti</div>
+                            } @else {
+                                <button [routerLink]="['/guess', sketch.id]" class="btn-guess">Indovina</button>
+                            }
+
                         } @else {
                             <a routerLink="/login" class="btn-guess guest-btn">Accedi per indovinare</a>
                         }
                     </div>
-                </div>
+                    </div>
             }
         </div>
 

@@ -74,6 +74,42 @@ export const getAllSketchesForGuests = async () => {
     });
 };
 
+// Recupera TUTTI gli sketch per la galleria di un utente loggato, 
+// ma aggiunge uno stato per indicare se l'ha già giocato o se è suo.
+export const getGallerySketchesForUser = async (userId: number) => {
+    // Recupero gli ID degli sketch vinti e persi sfruttando le funzioni ausiliarie
+    const [solvedIds, exhaustedIds] = await Promise.all([
+        getSolvedSketchIds(userId),
+        getExhaustedSketchIds(userId)
+    ]);
+
+    // Recuperiamo TUTTI gli sketch
+    const sketches = await Sketch.findAll({
+        attributes: ['id', 'content', 'authorId', 'createdAt'],
+        include: [
+            { model: User, as: 'author', attributes: ['username'] }
+        ],
+        order: [['createdAt', 'DESC']]
+    });
+
+    // Aggiungo lo "stato" ad ogni sketch
+    return sketches.map(sketch => {
+        const sketchJson = sketch.toJSON() as any; // Converte in JSON semplice per aggiungere proprietà
+        let status = 'playable'; // Di default, il disegno si può giocare
+
+        if (sketchJson.authorId === userId) {
+            status = 'own'; // Disegnato dall'utente stesso
+        } else if (solvedIds.includes(sketchJson.id)) {
+            status = 'guessed'; // L'utente lo ha già indovinato
+        } else if (exhaustedIds.includes(sketchJson.id)) {
+            status = 'exhausted'; // L'utente ha esaurito i 10 tentativi
+        }
+
+        // Restituisco il disegno con la nuova etichetta attaccata
+        return { ...sketchJson, playStatus: status };
+    });
+};
+
 // Recupera uno sketch senza la soluzione per la pagina di dettaglio.
 export const getSketchesByIdSafe = async (id: number) => {
     const sketch = await Sketch.findByPk(id, {
@@ -146,11 +182,16 @@ const getExhaustedSketchIds = async (userId: number): Promise<number[]> => {
 // Costruisce i criteri di ricerca per gli sketch giocabili.
 // Esclude: se stessi, quelli vinti e quelli persi (10 tentativi).
 const buildPlayableCriteria = (userId: number, excludedIds: number[]) => {
+    // Usiamo Op.or per includere disegni di altri (ID != userId) 
+    // O disegni senza autore (authorId IS NULL)
     const criteria: any = {
-        authorId: { [Op.ne]: userId } // Esclude i propri
+        [Op.or]: [
+            { authorId: { [Op.ne]: userId } },
+            { authorId: null }
+        ]
     };
 
-    // Aggiungo l'esclusione degli Id solo se l'array non è vuoto
+    // Aggiungo l'esclusione degli Id già giocati
     if (excludedIds.length > 0) {
         criteria.id = { [Op.notIn]: excludedIds };
     }

@@ -20,7 +20,7 @@ Sketch.init({
     },
     authorId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         field: 'author_id',
     },
     wordId: {

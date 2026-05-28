@@ -12,53 +12,36 @@ export class SketchService {
 
   // Recupera i disegni dell'utente loggato
   getMySketches() {
-    const token = localStorage.getItem('auth_token');
-
-    return this.http.get<any>(`${this.apiSketchesUrl}/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    return this.http.get<any>(`${this.apiSketchesUrl}/me`);
   }
 
   // Recupera tutta la galleria pubblica
   getGallery() {
-    const token = localStorage.getItem('auth_token');
-    const headers: any = {};
-    
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-
-    return this.http.get<any>(this.apiSketchesUrl, { headers });
+    return this.http.get<any>(this.apiSketchesUrl);
   }
   
   // Recupera le parole disponibili (non ancora disegnate dall'utente)
   getAvailableWords() {
-    const token = localStorage.getItem('auth_token');
-
-    return this.http.get<any[]>(this.apiWordsUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    return this.http.get<any[]>(this.apiWordsUrl);
   }
 
-  // Invia lo sketch al backend per salvarlo dal database
+  // Invia lo sketch al backend per salvarlo nel database
   createSketch(wordId: number, contentBase64: string) {
-    const token = localStorage.getItem('auth_token');
-
-    // Prepara il body della POST per la funzione createSketch del backend
     const body = {
       wordId: wordId,
       content: contentBase64
     };
+    return this.http.post<any>(this.apiSketchesUrl, body);
+  }
 
-    return this.http.post<any>(this.apiSketchesUrl, body, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+  // Recupera tutti gli sketch giocabili (esclude i propri e quelli già indovinati/chiusi)
+  getPlayableSketches() {
+    return this.http.get<any>(`${this.apiSketchesUrl}/playable`);
+  }
+
+  // Recupera uno sketch specifico tramite ID
+  getSketchById(id: number) {
+    return this.http.get<any>(`${this.apiSketchesUrl}/${id}`);
   }
 
 }

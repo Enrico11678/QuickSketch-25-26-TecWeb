@@ -75,6 +75,8 @@
   }
 
   .sketch-actions {
+    
+    /* Stili per il classico bottone Indovina */
     .btn-guess {
       display: block; 
       width: 100%;
@@ -106,6 +108,36 @@
         &:hover {
           background-color: #ffe4e6;
         }
+      }
+    }
+
+    /* Stili per i badge di stato */
+    .status-badge {
+      display: block;
+      padding: 10px;
+      border-radius: 8px; /* Allineato allo stile del btn-guess */
+      font-weight: bold;
+      font-size: 0.95rem;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+      
+      &.own {
+        background-color: #f8fafc;
+        color: #64748b;
+        border: 1px dashed #cbd5e1;
+      }
+      
+      &.guessed {
+        background-color: #dcfce3;
+        color: #15803d;
+        border: 1px solid #86efac;
+      }
+      
+      &.exhausted {
+        background-color: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #fca5a5;
       }
     }
   }

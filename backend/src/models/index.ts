@@ -4,7 +4,7 @@ import { Word } from "./Word.js";
 import { Guess } from "./Guess.js"
 
 // Relazione User -> Sketch (1 a Molti)
-User.hasMany(Sketch, { foreignKey: 'authorId', as: 'sketches' });
+User.hasMany(Sketch, { foreignKey: 'authorId', as: 'sketches', onDelete: 'SET NULL' });
 Sketch.belongsTo(User, { foreignKey: 'authorId', as: 'author'});
 
 // Relazione Word -> Sketch (1 a Molti)

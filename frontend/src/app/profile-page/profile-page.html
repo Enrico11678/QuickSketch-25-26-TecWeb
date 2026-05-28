@@ -39,7 +39,7 @@
         <div class="stat-icon">🎯</div>
         <div class="stat-testo">
           <h3>{{ drawingsGuessedCount() }}</h3>
-          <p>Tuoi Disegni Indovinati</p>
+          <p>Volte che i Tuoi Disegni sono stati Indovinati</p>
         </div>
       </div>
 
@@ -47,7 +47,7 @@
         <div class="stat-icon">❌</div>
         <div class="stat-testo">
           <h3>{{ failedCount() }}</h3>
-          <p>Tentativi Falliti</p>
+          <p>Errori</p>
         </div>
       </div>
     </div>
@@ -76,6 +76,12 @@
           
         </div>
       }
+    </div>
+
+    <div class="card danger-zone">
+      <h3>Danger Zone</h3>
+      <p>Una volta eliminato l'account, non potrai più recuperare i tuoi dati. I tuoi disegni diventeranno anonimi.</p>
+      <button (click)="deleteAccount()" class="btn-delete">Elimina Account</button>
     </div>
 
   </div>
