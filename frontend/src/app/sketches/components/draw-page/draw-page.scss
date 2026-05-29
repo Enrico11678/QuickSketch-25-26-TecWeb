@@ -256,11 +256,18 @@
   }
 
   .colors {
-    flex-wrap: wrap; /* Manda i bottoni a capo se non c'è spazio */
-    justify-content: center;
-  }
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px; /* Aumentato leggermente il gap */
+  padding: 10px;
+  background: #f8fafc; /* Aggiunto uno sfondo leggero per definire l'area cliccabile */
+  border-radius: 12px;
 
-  .clear-btn {
-    width: 100%; /* Il tasto cancella prende tutta la larghezza in basso */
+    .color-btn {
+      width: 45px; /* Leggermente più grande per le dita */
+      height: 45px;
+      border: 3px solid #fff; /* Bordo bianco per far risaltare il colore */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
   }
 }

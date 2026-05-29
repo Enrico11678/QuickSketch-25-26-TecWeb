@@ -101,57 +101,75 @@ export class DrawPage implements OnInit, OnDestroy {
 
   // Logica della Canvas (Disegno)
   private initCanvasDrawingLogic() {
-    if (!this._canvasRef) return;
-    const canvas = this._canvasRef.nativeElement;
-    this.ctx = canvas.getContext('2d')!;
+  if (!this._canvasRef) return;
+  const canvas = this._canvasRef.nativeElement;
+  this.ctx = canvas.getContext('2d')!;
 
-    // Stile del pennello
-    this.ctx.lineWidth = 4;
-    this.ctx.lineCap = 'round';
-    this.ctx.lineJoin = 'round';
-    this.ctx.strokeStyle = this.selectedColor();
+  this.ctx.lineWidth = 4;
+  this.ctx.lineCap = 'round';
+  this.ctx.lineJoin = 'round';
+  this.ctx.strokeStyle = this.selectedColor();
 
-    // Eventi del mouse
-    canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
-    canvas.addEventListener('mousemove', (e) => this.draw(e));
-    canvas.addEventListener('mouseup', () => this.stopDrawing());
-    canvas.addEventListener('mouseleave', () => this.stopDrawing());
-  }
+  // Eventi Mouse (Desktop)
+  canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
+  canvas.addEventListener('mousemove', (e) => this.draw(e));
+  canvas.addEventListener('mouseup', () => this.stopDrawing());
+  canvas.addEventListener('mouseleave', () => this.stopDrawing());
 
-  private startDrawing(e: MouseEvent) {
-    if (this.timerExpired() || this.isSaving() || !this.isGameStarted()) return;
-    this.isDrawing = true;
-    this.isCanvasDirty = true;
+  // EVENTI TOUCH (MOBILE)
+  canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Blocca lo scroll della pagina
+    this.startDrawing(e.touches[0]);
+  }, { passive: false });
 
-    const coords = this.getCanvasCoordinates(e);
-    this.ctx.beginPath();
-    this.ctx.moveTo(coords.x, coords.y);
-  }
+  canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    this.draw(e.touches[0]);
+  }, { passive: false });
 
-  private draw(e: MouseEvent) {
-    if (!this.isDrawing || this.timerExpired() || this.isSaving()) return;
+  canvas.addEventListener('touchend', () => this.stopDrawing());
+}
 
-    const coords = this.getCanvasCoordinates(e);
-    this.ctx.lineTo(coords.x, coords.y);
-    this.ctx.stroke();
-  }
+  // Modifica startDrawing
+private startDrawing(e: MouseEvent | Touch) {
+  if (this.timerExpired() || this.isSaving() || !this.isGameStarted()) return;
+  this.isDrawing = true;
+  this.isCanvasDirty = true;
+
+  const coords = this.getCanvasCoordinates(e);
+  this.ctx.beginPath();
+  this.ctx.moveTo(coords.x, coords.y);
+}
+
+// Modifica draw
+private draw(e: MouseEvent | Touch) {
+  if (!this.isDrawing || this.timerExpired() || this.isSaving()) return;
+
+  const coords = this.getCanvasCoordinates(e);
+  this.ctx.lineTo(coords.x, coords.y);
+  this.ctx.stroke();
+}
 
   private stopDrawing() {
     this.isDrawing = false;
   }
 
-  private getCanvasCoordinates(e: MouseEvent) {
-    const canvas = this._canvasRef.nativeElement;
-    const rect = canvas.getBoundingClientRect();
-    
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
+private getCanvasCoordinates(e: any) {
+  const canvas = this._canvasRef.nativeElement;
+  const rect = canvas.getBoundingClientRect();
+  
+  // Funziona sia per e.clientX (Mouse) che per e.clientX (Touch)
+  const clientX = e.clientX;
+  const clientY = e.clientY;
 
-    return {
-      x: (e.clientX - rect.left) * scaleX,
-      y: (e.clientY - rect.top) * scaleY
-    };
-  }
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+
+  return {
+    x: (clientX - rect.left) * scaleX,
+    y: (clientY - rect.top) * scaleY
+  };
+}
 
   // Strumenti della tavolozza
   changeColor(colorCode: string) {
