@@ -31,7 +31,11 @@ export const getTopPlayers = async (limit: number = 10) => {
         where: {
             guessedCount: { [Op.gt]: 0 } // Mostriamo solo chi ha indovinato almeno una aprola
         },
-        order: [['guessedCount', 'DESC']],
+        order: [
+            ['guessedCount', 'DESC'],        // 1° Criterio: Parole indovinate (Decrescente)
+            ['failedCount', 'ASC'],          // 2° Criterio (Spareggio): Meno fallimenti (Crescente)
+            ['totalAttemptsUsed', 'ASC']     // 3° Criterio (Spareggio): Meno tentativi usati (Crescente)
+        ],
         limit
     });
 };

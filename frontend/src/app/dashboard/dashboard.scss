@@ -18,6 +18,11 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: sticky;
+  top: 140px; 
+  align-self: start;
+  max-height: calc(100vh - 140px); /* 100vh è l'altezza totale della finestra, togliamo lo spazio della navbar */
+  overflow-y: auto; /* Se il contenuto sfora, appare la scrollbar interna */
 }
 
 /* Colonna Centrale (La Galleria) */
@@ -31,6 +36,11 @@
   display: flex;
   flex-direction: column;
   gap: 25px;
+  position: sticky;
+  top: 140px; 
+  align-self: start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 /* Responsive: se lo schermo è piccolo (tablet/smartphone), incolonna tutto */
@@ -40,5 +50,9 @@
     &.guest-mode {
       grid-template-columns: 1fr;
     }
+  }
+
+  .left-column, .right-column {
+    position: static; 
   }
 }

@@ -1,0 +1,132 @@
+/* Assicurati che le card abbiano un po' di respiro tra loro */
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Stesso gap della colonna destra */
+  width: 100%;
+}
+
+/* Dato che la classe .card è globale, qui stilizziamo solo la parte specifica della leaderboard */
+.leaderboard-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0; /* Togliamo il padding globale per gestire l'header in modo custom */
+  overflow: hidden; /* Per far aderire bene gli elementi ai bordi arrotondati */
+}
+
+/* Intestazione della Card */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  background-color: #f8fafc; /* Grigio chiarissimo per staccare dal bianco della lista */
+  border-bottom: 1px solid #e2e8f0;
+
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .view-all {
+    font-size: 0.85rem;
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--secondary-orange);
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Lista della Classifica */
+.ranking-list {
+  list-style: none;
+  margin: 0;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 8px 0;
+    border-bottom: 1px dashed #f1f5f9; /* Linea di separazione sottile */
+
+    /* Rimuove la linea dall'ultimo elemento */
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+/* Badge della Posizione (Pallino con il numero) */
+.rank-badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f1f5f9; /* Colore base per posizioni > 3 */
+  color: #64748b;
+  font-weight: bold;
+  font-size: 0.95rem;
+  flex-shrink: 0; /* Impedisce che si rimpicciolisca */
+
+  /* Colori per il podio! */
+  &.podium-1 {
+    background: linear-gradient(135deg, #ffd700, #ffb300); /* Oro */
+    color: white;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+    transform: scale(1.1); /* Il primo posto è leggermente più grande */
+  }
+
+  &.podium-2 {
+    background: linear-gradient(135deg, #e2e8f0, #94a3b8); /* Argento */
+    color: white;
+  }
+
+  &.podium-3 {
+    background: linear-gradient(135deg, #f59e0b, #d97706); /* Bronzo */
+    color: white;
+  }
+}
+
+/* Informazioni Utente (Nome e Punteggio) */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .username {
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+  }
+
+  .score {
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    font-weight: 500;
+  }
+}
+
+/* Messaggio se la classifica è vuota */
+.empty-state {
+  text-align: center;
+  color: var(--text-gray);
+  font-style: italic;
+  padding: 20px 0;
+  margin: 0;
+  font-size: 0.9rem;
+}

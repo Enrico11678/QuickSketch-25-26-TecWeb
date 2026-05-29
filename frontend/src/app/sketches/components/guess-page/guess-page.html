@@ -63,18 +63,16 @@
           </div>
 
           @if (gameState() === 'playing') {
-            <div class="input-area">
+            <form class="input-area" [formGroup]="guessForm" (ngSubmit)="submitGuess()">
               <input 
                 type="text" 
+                formControlName="guess"
                 placeholder="Scrivi qui la tua risposta..." 
-                [(ngModel)]="guessInput" 
-                (keyup.enter)="submitGuess()"
-                [disabled]="attemptsLeft() <= 0"
-              >
-              <button class="btn-primary" (click)="submitGuess()" [disabled]="!guessInput().trim()">
+                [readOnly]="attemptsLeft() <= 0 || gameState() !== 'playing'">
+              <button type="submit" class="btn-primary" [disabled]="guessForm.invalid || gameState() !== 'playing'">
                 Invia
               </button>
-            </div>
+            </form>
             
             @if (errorMessage()) {
               <p class="error-text">{{ errorMessage() }}</p>

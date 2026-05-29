@@ -1,28 +1,27 @@
 import { Component, signal, inject } from '@angular/core';
 import { RouterLink, Router } from '@angular/router'; // Router serve per cambiare pagina dopo il successo
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrls: ['../auth.scss'],
 })
 export class Register {
-
-  // Definisco i contenitori reattivi per i dati inseriti nel form
-  username = signal('');
-  email = signal('');
-  password = signal('');
-
-  // Variabile per controllare se la password è visibile o no
-  showPassword = signal(false);
-
-  // Inietto i servizi: uno per chiamare il backend, uno per cambiare pagina
   private authService = inject(AuthService);
   private router = inject(Router);
+  private formBuilder = inject(FormBuilder);
+
+  registerForm: FormGroup = this.formBuilder.group({
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/.*[^a-zA-Z0-9 ].*/)]]
+  });
+
+  showPassword = signal(false);
 
   togglePassword() {
     this.showPassword.set(!this.showPassword());
@@ -30,9 +29,17 @@ export class Register {
 
   // Funzione che scatta quando viene premuto il pulsante "Registrati"
   register() {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
+
     console.log('Sto inviando i dati di registrazione al server...');
 
-    this.authService.register(this.username(), this.email(), this.password()).subscribe({
+    // Estraggo i dati sicuri dal form
+    const { username, email, password } = this.registerForm.value;
+
+    this.authService.register(username, email, password).subscribe({
       next: (rispostaDelServer) => {
         console.log('Registrazione completata!', rispostaDelServer);
         alert('Account creato con successo! Ora puoi accedere.');

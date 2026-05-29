@@ -1,0 +1,51 @@
+<div class="card leaderboard-card">
+  <div class="card-header">
+    <h3>Top Disegnatori</h3>
+    <a routerLink="/leaderboard" [queryParams]="{tab: 'designers'}" class="view-all">Vedi tutti</a>
+  </div>
+  
+  <ul class="ranking-list">
+    @for (user of topDesigners(); track user.id; let i = $index) {
+      <li class="ranking-item">
+        <span class="rank-badge" 
+              [class.podium-1]="i === 0" 
+              [class.podium-2]="i === 1" 
+              [class.podium-3]="i === 2">
+          {{ i + 1 }}
+        </span>
+        <div class="user-info">
+          <span class="username">{{ user.username }}</span>
+          <span class="score">{{ user.successRate }}% successi</span>
+        </div>
+      </li>
+    } @empty {
+      <p class="empty-state">Ancora nessun disegnatore.</p>
+    }
+  </ul>
+</div>
+
+<div class="card leaderboard-card">
+  <div class="card-header">
+    <h3>Top Indovini</h3>
+    <a routerLink="/leaderboard" [queryParams]="{tab: 'players'}" class="view-all">Vedi tutti</a>
+  </div>
+  
+  <ul class="ranking-list">
+    @for (user of topPlayers(); track user.id; let i = $index) {
+      <li class="ranking-item">
+        <span class="rank-badge" 
+              [class.podium-1]="i === 0" 
+              [class.podium-2]="i === 1" 
+              [class.podium-3]="i === 2">
+          {{ i + 1 }}
+        </span>
+        <div class="user-info">
+          <span class="username">{{ user.username }}</span>
+          <span class="score">{{ user.guessedCount }} parole</span>
+        </div>
+      </li>
+    } @empty {
+      <p class="empty-state">Ancora nessun vincitore.</p>
+    }
+  </ul>
+</div>

@@ -13,27 +13,37 @@
 
         <h3 class="welcome-text">Bentornato!</h3>
 
-        <form class="auth-form" (ngSubmit)="login()">
+        <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="login()">
+    
             <div class="input-group">
                 <div class="input-wrapper">
                     <i class="fa-solid fa-envelope icon-left"></i>
-                    <input type="email" placeholder="Email" name="email" [(ngModel)]="email" required>
+                    <input type="email" placeholder="Email" formControlName="email">
                 </div>
+                @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                    <div class="error-msg">Inserisci un'email valida.</div>
+                }
             </div>
 
             <div class="input-group">
                 <div class="input-wrapper">
                     <i class="fa-solid fa-lock icon-left"></i>
-                    <input [type]="showPassword() ? 'text' : 'password'" placeholder="Password" name="password" [(ngModel)]="password" required>
+                    <input [type]="showPassword() ? 'text' : 'password'" placeholder="Password" formControlName="password">
                     <i class="fa-solid icon-right" 
                        [class.fa-eye]="!showPassword()" 
                        [class.fa-eye-slash]="showPassword()" 
                        (click)="togglePassword()">
                     </i>
                 </div>
+                @if ((loginForm.get('password')?.hasError('minlength') || loginForm.get('password')?.hasError('pattern')) && loginForm.get('password')?.touched) {
+                    <div class="error-msg">La password deve avere almeno 6 caratteri e un carattere speciale.</div>
+                } @else if (loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched) {
+                    <div class="error-msg">La password è obbligatoria.</div>
+                }
             </div>
 
-            <button type="submit" class="btn-auth">ACCEDI</button>
+            <button type="submit" class="btn-auth" [disabled]="loginForm.invalid">ACCEDI</button>
+    
         </form>
 
         <div class="link-container">

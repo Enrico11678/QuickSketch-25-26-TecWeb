@@ -73,12 +73,45 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 20px; /* Spazio dai bordi dello schermo */
-  gap: 20px; /* Spazio vitale tra la Navbar e il contenuto centrale */
+  padding: 0 20px 20px 20px; 
+  gap: 20px;
 }
 
 .navbar-section {
   width: 100%;
-  max-width: 1440px; /* Stessa larghezza massima della dashboard */
-  margin: 0 auto; /* La centra perfettamente nello schermo */
+  max-width: 1440px;
+  margin: 0 auto;
+  
+  position: sticky;
+  top: 0; 
+  z-index: 1000; 
+  
+  padding-top: 20px; 
+  padding-bottom: 10px; /* Spazio extra sotto prima che inizino le card */
+  
+  // Camuffa le cards che scorrono sotto la navbar
+  background-color: var(--bg-dashboard); 
+  background-image: url('/sfondoMatite.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Nasconde scrollbar globale */
+
+/* Firefox */
+html, body {
+  scrollbar-width: none; 
+}
+
+/* Chrome, Safari, Edge e Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

@@ -192,10 +192,16 @@
       &:focus {
         border-color: var(--primary-blue);
       }
-      &:disabled {
+
+      &.ng-invalid.ng-dirty {
+        border-color: #ef4444; 
+      }
+
+      &:disabled, &[readonly] {
         background-color: #f1f5f9;
         cursor: not-allowed;
       }
+    
     }
 
     button {

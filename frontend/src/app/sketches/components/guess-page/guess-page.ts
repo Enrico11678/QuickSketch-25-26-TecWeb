@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe, NgClass } from '@angular/common';
 import { Navbar } from '../../../dashboard/components/navbar/navbar';
 import { SketchService } from '../../services/sketch.service';
@@ -9,7 +9,7 @@ import { GuessService } from '../../services/guess.service';
 @Component({
   selector: 'app-guess-page',
   standalone: true,
-  imports: [Navbar, FormsModule, DatePipe, NgClass, RouterLink],
+  imports: [Navbar, ReactiveFormsModule, DatePipe, NgClass, RouterLink],
   templateUrl: './guess-page.html',
   styleUrl: './guess-page.scss',
 })
@@ -18,13 +18,17 @@ export class GuessPage implements OnInit {
   private router = inject(Router);
   private sketchService = inject(SketchService);
   private guessService = inject(GuessService);
+  private formBuilder = inject(FormBuilder);
+
+  guessForm: FormGroup = this.formBuilder.group({
+    guess: ['', [Validators.required, Validators.minLength(2)]] // Obligaotorio e minimo due caratteri
+  })
 
   // Stato del gioco
   isLoading = signal<boolean>(true);
   sketch = signal<any>(null);
 
   // Input e Tentativi
-  guessInput = signal<string>('');
   previousGuesses = signal<any[]>([]);
   attemptsLeft = signal<number>(10);
 
@@ -34,7 +38,7 @@ export class GuessPage implements OnInit {
   errorMessage = signal<string | null>(null);
 
   ngOnInit() {
-    // Si mete in ascolto dei cambiamenti nell'URL
+    // Si mette in ascolto dei cambiamenti nell'URL
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       this.resetGameState();
@@ -51,7 +55,7 @@ export class GuessPage implements OnInit {
   private resetGameState() {
     this.isLoading.set(true);
     this.sketch.set(null);
-    this.guessInput.set('');
+    this.guessForm.reset();
     this.previousGuesses.set([]);
     this.attemptsLeft.set(10);
     this.gameState.set('playing');
@@ -145,22 +149,20 @@ export class GuessPage implements OnInit {
 
   // Gestione dell'invio di un tentativo
   submitGuess() {
-    const attempt = this.guessInput().trim();
-    if (!attempt || this.gameState() !== 'playing') return;
+    if (this.guessForm.invalid || this.gameState() !== 'playing') return;
 
-    this.errorMessage.set(null); // Pulisco gli errori
+    // Estraggo il valore pulito dal form
+    const attempt = this.guessForm.value.guess.trim();
+    this.errorMessage.set(null);
 
     this.guessService.makeGuess(this.sketch().id, attempt).subscribe({
       next: (res) => {
         const result = res.data;
 
-        // Svuoto l'input
-        this.guessInput.set('');
+        // Svuoto solo l'input del form
+        this.guessForm.get('guess')?.reset('');
 
-        // Aggiorno la UI in tempo reale
         this.attemptsLeft.set(result.attemptsLeft);
-
-        // Invece di fare una nuova chiamata al DB, aggiungo il nuovo tentativo alla lista visiva!
         this.previousGuesses.update(guesses => [...guesses, result.guess]);
 
         if (result.isCorrect) {
@@ -172,7 +174,7 @@ export class GuessPage implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Erore durante il tentativo', err);
+        console.error('Errore durante il tentativo', err);
         this.errorMessage.set(err.error?.message || err.error?.description || 'Parola non valida o errore.');
       }
     });

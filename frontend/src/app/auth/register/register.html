@@ -13,34 +13,47 @@
 
         <h3 class="welcome-text">Unisciti alla Community!</h3>
 
-        <form class="auth-form" (ngSubmit)="register()">
+        <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="register()">
+            
             <div class="input-group">
                 <div class="input-wrapper">
                     <i class="fa-solid fa-user icon-left"></i>
-                    <input type="text" placeholder="Nome Utente" name="username" [(ngModel)]="username" required>
+                    <input type="text" placeholder="Nome Utente" formControlName="username">
                 </div>
+                @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+                    <div class="error-msg">Il nome utente deve avere almeno 3 caratteri.</div>
+                }
             </div>
 
             <div class="input-group">
                 <div class="input-wrapper">
                     <i class="fa-solid fa-envelope icon-left"></i>
-                    <input type="email" placeholder="Email" name="email" [(ngModel)]="email" required>
+                    <input type="email" placeholder="Email" formControlName="email">
                 </div>
+                @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                    <div class="error-msg">Inserisci un'email valida.</div>
+                }
             </div>
 
             <div class="input-group">
                 <div class="input-wrapper">
                     <i class="fa-solid fa-lock icon-left"></i>
-                    <input [type]="showPassword() ? 'text' : 'password'" placeholder="Password" name="password" [(ngModel)]="password" required>
+                    <input [type]="showPassword() ? 'text' : 'password'" placeholder="Password" formControlName="password">
                     <i class="fa-solid icon-right"
                        [class.fa-eye]="!showPassword()"
                        [class.fa-eye-slash]="showPassword()"
                        (click)="togglePassword()">
                     </i>
                 </div>
+                @if ((registerForm.get('password')?.hasError('minlength') || registerForm.get('password')?.hasError('pattern')) && registerForm.get('password')?.touched) {
+                    <div class="error-msg">La password deve avere almeno 6 caratteri e un carattere speciale.</div>
+                } @else if (registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched) {
+                    <div class="error-msg">La password è obbligatoria.</div>
+                }
             </div>
 
-            <button type="submit" class="btn-auth">REGISTRATI</button>
+            <button type="submit" class="btn-auth" [disabled]="registerForm.invalid">REGISTRATI</button>
+            
         </form>
 
         <div class="link-container">

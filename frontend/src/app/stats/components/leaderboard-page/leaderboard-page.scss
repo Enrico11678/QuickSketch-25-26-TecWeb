@@ -1,0 +1,161 @@
+/* Contenitore principale della pagina */
+.leaderboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Evita che si stiri in altezza */
+  width: 100%;
+}
+
+/* Card centrale che contiene tutto */
+.leaderboard-main-card {
+  width: 100%;
+  max-width: 900px; /* Larghezza ottimale per la lettura delle tabelle */
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 40px; /* Spazio in basso prima della fine della pagina */
+}
+
+/* Header */
+.leaderboard-header {
+  text-align: center;
+  
+  h2 {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--text-dark);
+  }
+  
+  p {
+    margin: 10px 0 0;
+    color: var(--text-gray);
+    font-size: 1.1rem;
+  }
+}
+
+/* Selettore Tab (Bottoni) */
+.tab-selector {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  background-color: #f1f5f9; /* Grigio molto chiaro per lo sfondo del selettore */
+  padding: 8px;
+  border-radius: 50px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 40px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &.active {
+    background-color: var(--white);
+    color: var(--primary-blue);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Effetto "sollevato" per il tab attivo */
+  }
+
+  &:hover:not(.active) {
+    color: var(--text-dark);
+  }
+}
+
+/* Tabella */
+.table-wrapper {
+  overflow-x: auto; /* Permette lo scroll orizzontale su schermi molto piccoli */
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+
+  th {
+    padding: 15px;
+    color: var(--text-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  td {
+    padding: 15px;
+    color: var(--text-dark);
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+  }
+
+  /* Rimuove il bordo inferiore dall'ultima riga */
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Evidenzia il podio con uno sfondo grigio/azzurro impercettibile */
+  tr.podium td {
+    background-color: #f8fafc;
+  }
+
+  /* Allineiamo i nomi utente a sinistra per maggiore leggibilità */
+  th.col-user, td.col-user {
+    text-align: left;
+  }
+  
+  td.col-user {
+    font-size: 1.1rem;
+  }
+
+  /* I punteggi principali in blu */
+  .col-score {
+    font-weight: bold;
+    color: var(--primary-blue);
+    font-size: 1.1rem;
+  }
+}
+
+/* Badge della Posizione (Riutilizzati dalla dashboard) */
+.rank-badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #e2e8f0; 
+  color: #64748b;
+  font-weight: bold;
+  font-size: 1rem;
+
+  &.podium-1 {
+    background: linear-gradient(135deg, #ffd700, #ffb300);
+    color: white;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+    transform: scale(1.1);
+  }
+
+  &.podium-2 {
+    background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+    color: white;
+  }
+
+  &.podium-3 {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+  }
+}
+
+/* Stato vuoto */
+.empty-row {
+  color: var(--text-gray);
+  font-style: italic;
+  padding: 40px !important;
+}

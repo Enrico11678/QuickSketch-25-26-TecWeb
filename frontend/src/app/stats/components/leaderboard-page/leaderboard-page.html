@@ -1,0 +1,100 @@
+<div class="page-layout">
+  
+  <header class="navbar-section">
+    <app-navbar></app-navbar>
+  </header>
+
+  <main class="leaderboard-container">
+    <div class="card leaderboard-main-card">
+      
+      <div class="leaderboard-header">
+        <h2>🏆 Classifica Mondiale</h2>
+        <p>I migliori artisti e indovini di QuickSketch</p>
+      </div>
+
+      <div class="tab-selector">
+        <button class="tab-btn" 
+                [ngClass]="{'active': activeTab() === 'designers'}" 
+                (click)="switchTab('designers')">
+          Top Disegnatori
+        </button>
+        <button class="tab-btn" 
+                [ngClass]="{'active': activeTab() === 'players'}" 
+                (click)="switchTab('players')">
+          Top Indovini
+        </button>
+      </div>
+
+      @if (activeTab() === 'designers') {
+        <div class="table-wrapper">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Pos.</th>
+                <th class="col-user">Utente</th>
+                <th>Schizzi Creati</th>
+                <th>Tasso di Successo</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of topDesigners(); track user.id; let i = $index) {
+                <tr [class.podium]="i < 3">
+                  <td class="col-rank">
+                    <span class="rank-badge" 
+                          [class.podium-1]="i === 0" 
+                          [class.podium-2]="i === 1" 
+                          [class.podium-3]="i === 2">
+                      {{ i + 1 }}
+                    </span>
+                  </td>
+                  <td class="col-user"><strong>{{ user.username }}</strong></td>
+                  <td>{{ user.drawingsCount }}</td>
+                  <td class="col-score">{{ user.successRate }}%</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="empty-row">Nessun disegnatore in classifica.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      @if (activeTab() === 'players') {
+        <div class="table-wrapper">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Pos.</th>
+                <th class="col-user">Utente</th>
+                <th>Parole Indovinate</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of topPlayers(); track user.id; let i = $index) {
+                <tr [class.podium]="i < 3">
+                  <td class="col-rank">
+                    <span class="rank-badge" 
+                          [class.podium-1]="i === 0" 
+                          [class.podium-2]="i === 1" 
+                          [class.podium-3]="i === 2">
+                      {{ i + 1 }}
+                    </span>
+                  </td>
+                  <td class="col-user"><strong>{{ user.username }}</strong></td>
+                  <td class="col-score">{{ user.guessedCount }}</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="3" class="empty-row">Nessun vincitore in classifica.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    </div>
+  </main>
+</div>
