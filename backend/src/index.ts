@@ -7,7 +7,7 @@ import wordRoutes from './routes/wordRoutes.js';
 import sketchRoutes from './routes/sketchRoutes.js';
 import guessRoutes from './routes/guessRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import { seedWords } from "./models/seeder.js";
+import { seedWords } from "./models/data/seeder.js";
 
 const app: Application = express();
 const PORT: number = Number(process.env.PORT) || 3000;
