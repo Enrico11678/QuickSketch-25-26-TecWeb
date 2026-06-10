@@ -31,7 +31,7 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
         // Attacco i dati dell'utente alla richiesta, così che i controller sapranno chi sta facendo l'azione.
         req.user = decoded;
 
-        next(); // Prosegue verso la rotta successiva
+        next(); 
     } catch (error) {
         throw new AuthError("Sessione scaduta o Token non valido.");
     }

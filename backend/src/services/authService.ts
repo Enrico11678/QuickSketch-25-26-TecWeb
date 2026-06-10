@@ -1,7 +1,8 @@
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import { User } from '../models/index.js'
-import { BadRequestError, ConflictError, AuthError } from '../utils/errors.js'
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { Op } from 'sequelize';
+import { User } from '../models/index.js';
+import { BadRequestError, ConflictError, AuthError } from '../utils/errors.js';
 
 // Funzione principale per la registrazione
 export const createUser = async (userData: any) => {
@@ -65,7 +66,9 @@ const validatePasswordPolicy = (password: string): void => {
 // Controlla se le credenziali sono già in uso
 const ensureUniqueness = async (email: string, username: string): Promise<void> => {
     const existingUser = await User.findOne({
-        where: { [Symbol.for('or') as any]: [{ email }, { username }] }
+        where: {
+            [Op.or]: [{ email }, { username }]
+        }
     });
 
     if (existingUser) {
