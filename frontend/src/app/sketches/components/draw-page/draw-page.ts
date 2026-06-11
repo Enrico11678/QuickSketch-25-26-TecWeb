@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, inject, signal, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SketchService } from '../../services/sketch.service'; 
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-draw-page',
@@ -19,9 +20,9 @@ export class DrawPage implements OnInit, OnDestroy {
   
   private _canvasRef!: ElementRef<HTMLCanvasElement>;
   private ctx!: CanvasRenderingContext2D;
-
   private sketchService = inject(SketchService);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   wordsList = signal<{ id: number; text: string }[]>([]); 
   selectedWord = signal<{ id: number; text: string } | null>(null); 
@@ -200,12 +201,12 @@ private getCanvasCoordinates(e: any) {
     this.sketchService.createSketch(word.id, base64Image).subscribe({
       next: () => {
         this.isSaving.set(false);
-        alert('Disegno pubblicato con successo!');
+        this.notificationService.show('Disegno pubblicato con successo!', 'success');
         this.router.navigate(['/profile']); 
       },
       error: (err) => {
         this.isSaving.set(false);
-        alert(err.error?.message || 'Errore durante il salvataggio.');
+        this.notificationService.show(err.error?.message || 'Errore durante il salvataggio.', 'error');
       }
     });
   }

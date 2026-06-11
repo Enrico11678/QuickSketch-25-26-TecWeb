@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { SketchService } from '../sketches/services/sketch.service';
 import { Navbar } from '../dashboard/components/navbar/navbar';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -16,6 +17,7 @@ export class ProfilePage implements OnInit {
   private authService = inject(AuthService);
   private sketchService = inject(SketchService);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   // Dati utente
   username = signal<string>('Caricamento...');
@@ -78,7 +80,7 @@ export class ProfilePage implements OnInit {
       },
       error: (err) => {
         console.error("Errore eliminazione:", err);
-        alert("Errore durante l'eliminazione dell'account.");
+        this.notificationService.show("Errore durante l'eliminaazione dell'account.", 'error');
       }
     });
   }

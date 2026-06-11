@@ -5,6 +5,7 @@ import { DatePipe, NgClass } from '@angular/common';
 import { Navbar } from '../../../dashboard/components/navbar/navbar';
 import { SketchService } from '../../services/sketch.service';
 import { GuessService } from '../../services/guess.service';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-guess-page',
@@ -19,6 +20,7 @@ export class GuessPage implements OnInit {
   private sketchService = inject(SketchService);
   private guessService = inject(GuessService);
   private formBuilder = inject(FormBuilder);
+  private notificationService = inject(NotificationService);
 
   guessForm: FormGroup = this.formBuilder.group({
     guess: ['', [Validators.required, Validators.minLength(2)]] // Obligaotorio e minimo due caratteri
@@ -199,7 +201,7 @@ export class GuessPage implements OnInit {
     } 
     // Se non ce ne sono altri (playable.length == 1 o 0), avviso
     else {
-      alert("Non ci sono altri disegni da indovinare!");
+      this.notificationService.show("Non ci sono altri disegni da infovinare!", 'info');
     }
   });
 }

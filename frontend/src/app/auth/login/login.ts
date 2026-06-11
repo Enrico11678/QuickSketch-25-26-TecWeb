@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterLink, Router } from "@angular/router";
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { email } from '@angular/forms/signals';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +14,7 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
   private formBuilder = inject(FormBuilder);
+  private notificationService = inject(NotificationService);
 
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]], // Deve essere pieno e in formato email
@@ -53,7 +54,7 @@ export class Login {
       },
       error: (errore) => {
         console.error('Errore di login:', errore);
-        alert('Email o password errati!');
+        this.notificationService.show('Email o password errati!', 'error');
       }
     });
   }

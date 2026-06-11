@@ -1,1 +1,7 @@
+@if (notificationService.data().message) {
+  <div class="toast" [ngClass]="notificationService.data().type">
+    {{ notificationService.data().message }}
+  </div>
+}
+
 <router-outlet></router-outlet>
