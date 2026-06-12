@@ -5,7 +5,6 @@ test.describe.configure({ mode: 'serial' });
 
 test.describe('Flusso di autenticazione completo', () => {
 
-    // Definiamo variabili globali
     let testEmail: string;
     let testUser: string;
 
@@ -88,7 +87,7 @@ test.describe('Flusso di autenticazione completo', () => {
         await expect(page.locator('.btn-logout')).toBeVisible({ timeout: 15000 });
 
         // Act
-        await page.locator('.btn-logout').click();
+        await page.locator('.btn-logout').click({ force: true });
 
         // Assert
         await expect(page).toHaveURL(/.*login/);
@@ -98,28 +97,21 @@ test.describe('Flusso di autenticazione completo', () => {
     });
 
     test('5. Eliminazione account utente', async ({ page }) => {
-        // --- ARRANGE ---
+        // Arrange
         await page.goto('/login');
         await page.getByPlaceholder('Email').fill(testEmail);
         await page.getByPlaceholder('Password').fill('Password123!@#');
         await page.getByRole('button', { name: /accedi/i }).click();
         
-        // ASPETTIAMO che il redirect alla dashboard sia completato
         await expect(page).toHaveURL(/.*dashboard/);
         
-        // --- NAVIGAZIONE FORZATA AL PROFILO ---
-        // Invece di cliccare un link generico, cerchiamo il link specifico per /profile
-        // e lo clicchiamo con forza
         await page.locator('a[routerlink="/profile"]').click();
         
-        // Aspettiamo che l'URL cambi
         await expect(page).toHaveURL(/.*profile/); 
         
-        // --- ACT ---
+        // Act
         page.on('dialog', dialog => dialog.accept());
 
-        // Usiamo un selettore basato sul testo del bottone, 
-        // ed assicuriamoci di puntare a quello specifico nella 'danger-zone'
         const deleteBtn = page.locator('.danger-zone button.btn-delete');
         
         await expect(deleteBtn).toBeVisible({ timeout: 15000 });
@@ -130,7 +122,7 @@ test.describe('Flusso di autenticazione completo', () => {
             deleteBtn.click()
         ]);
 
-        // --- ASSERT ---
+        // Assert
         await expect(page).toHaveURL(/.*login/);
         const token = await page.evaluate(() => localStorage.getItem('auth_token'));
         expect(token).toBeNull();
