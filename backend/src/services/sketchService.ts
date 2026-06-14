@@ -12,7 +12,6 @@ export const createSketch = async (userId: number, wordId: number, content: stri
         throw new NotFoundError("Parola selezionata");
     }
 
-    // Controllo anti-duplicato
     const alreadyDrawn = await Sketch.findOne({
         where: {
             authorId: userId,
@@ -41,9 +40,8 @@ export const createSketch = async (userId: number, wordId: number, content: stri
 // Recupera gli Sketch che l'utente può effettivamente giocare escludendo:
 // 1. Quelli creati dall'utente stesso.
 // 2. Quelli già indovinati
-// 3. Quellidove sono già stati raggiunti i 10 tentativi (falliti).
+// 3. Quelli dove sono già stati raggiunti i 10 tentativi (falliti).
 export const getPlayableSketches = async (userId: number) => {
-    // Eseguo i controlli in parallelo per massimizzare le performance
     const [solvedIds, exhaustedIds] = await Promise.all([
         getSolvedSketchIds(userId),
         getExhaustedSketchIds(userId)
@@ -62,8 +60,6 @@ export const getPlayableSketches = async (userId: number) => {
     });
 };
 
-// Recupera tutti gli sketches per gli utenti non registrati.
-// Non applica filtri di partecipazione, ma limita i dati (niente Word/soluzione).
 export const getAllSketchesForGuests = async () => {
     return await Sketch.findAll({
         attributes: ['id', 'content', 'authorId', 'createdAt'],
@@ -74,16 +70,12 @@ export const getAllSketchesForGuests = async () => {
     });
 };
 
-// Recupera TUTTI gli sketch per la galleria di un utente loggato, 
-// ma aggiunge uno stato per indicare se l'ha già giocato o se è suo.
 export const getGallerySketchesForUser = async (userId: number) => {
-    // Recupero gli ID degli sketch vinti e persi sfruttando le funzioni ausiliarie
     const [solvedIds, exhaustedIds] = await Promise.all([
         getSolvedSketchIds(userId),
         getExhaustedSketchIds(userId)
     ]);
 
-    // Recuperiamo TUTTI gli sketch
     const sketches = await Sketch.findAll({
         attributes: ['id', 'content', 'authorId', 'createdAt'],
         include: [
@@ -98,19 +90,17 @@ export const getGallerySketchesForUser = async (userId: number) => {
         let status = 'playable'; // Di default, il disegno si può giocare
 
         if (sketchJson.authorId === userId) {
-            status = 'own'; // Disegnato dall'utente stesso
+            status = 'own'; 
         } else if (solvedIds.includes(sketchJson.id)) {
-            status = 'guessed'; // L'utente lo ha già indovinato
+            status = 'guessed'; 
         } else if (exhaustedIds.includes(sketchJson.id)) {
-            status = 'exhausted'; // L'utente ha esaurito i 10 tentativi
+            status = 'exhausted'; 
         }
 
-        // Restituisco il disegno con la nuova etichetta attaccata
         return { ...sketchJson, playStatus: status };
     });
 };
 
-// Recupera uno sketch senza la soluzione per la pagina di dettaglio.
 export const getSketchesByIdSafe = async (id: number) => {
     const sketch = await Sketch.findByPk(id, {
         attributes: ['id', 'content', 'authorId', 'createdAt'],
@@ -126,7 +116,6 @@ export const getSketchesByIdSafe = async (id: number) => {
     return sketch;
 };
 
-// Recupera lo sketch con soluzione, da usare nel guessService per confrontare il tentativo con la soluzione.
 export const getSketchesByIdWithWord = async (id: number) => {
     const sketch = await Sketch.findByPk(id, {
         include: [
@@ -142,8 +131,6 @@ export const getSketchesByIdWithWord = async (id: number) => {
     return sketch;
 };
 
-// Recupera tutti gli Sketch prodotti dall'utente loggato.
-// Qui includiamo anche la soluzione.
 export const getMySketches = async (userId: number) => {
     return await Sketch.findAll({
         where: { authorId: userId },
@@ -171,7 +158,6 @@ const getExhaustedSketchIds = async (userId: number): Promise<number[]> => {
         where: { userId },
         attributes: ['sketchId'],
         group: ['sketchId'],
-        // Se il conteggio dei tentativi è >= 10 l'utente ha fallito e non può più giocare su quello sketch
         having: where(fn('COUNT', col('id')), '>=', 10),
         raw: true
     });
@@ -180,10 +166,7 @@ const getExhaustedSketchIds = async (userId: number): Promise<number[]> => {
 }; 
 
 // Costruisce i criteri di ricerca per gli sketch giocabili.
-// Esclude: se stessi, quelli vinti e quelli persi (10 tentativi).
 const buildPlayableCriteria = (userId: number, excludedIds: number[]) => {
-    // Usiamo Op.or per includere disegni di altri (ID != userId) 
-    // O disegni senza autore (authorId IS NULL)
     const criteria: any = {
         [Op.or]: [
             { authorId: { [Op.ne]: userId } },
@@ -191,7 +174,6 @@ const buildPlayableCriteria = (userId: number, excludedIds: number[]) => {
         ]
     };
 
-    // Aggiungo l'esclusione degli Id già giocati
     if (excludedIds.length > 0) {
         criteria.id = { [Op.notIn]: excludedIds };
     }

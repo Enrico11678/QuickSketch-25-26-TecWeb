@@ -17,7 +17,7 @@ export class Navbar {
   isLogged = this.authService.isLoggedIn();
 
   logout() {
-    this.authService.logout(); // Svuota il localStorage
-    this.router.navigate(['/login']); // Rispedisce l'utente al login
+    this.authService.logout(); 
+    this.router.navigate(['/login']); 
   }
 }

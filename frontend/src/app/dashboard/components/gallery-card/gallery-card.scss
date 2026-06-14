@@ -16,7 +16,6 @@
 
 .sketches-grid {
   display: grid;
-  /* Griglia fluida per i disegni */
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
 }
@@ -76,7 +75,6 @@
 
   .sketch-actions {
     
-    /* Stili per il classico bottone Indovina */
     .btn-guess {
       display: block; 
       width: 100%;
@@ -111,11 +109,10 @@
       }
     }
 
-    /* Stili per i badge di stato */
     .status-badge {
       display: block;
       padding: 10px;
-      border-radius: 8px; /* Allineato allo stile del btn-guess */
+      border-radius: 8px; 
       font-weight: bold;
       font-size: 0.95rem;
       text-align: center;

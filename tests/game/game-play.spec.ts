@@ -64,7 +64,6 @@ test.describe('Flusso di gioco', () => {
             await page.getByRole('button', { name: /inizia a disegnare!/i }).click();
             await expect(page).toHaveURL(/.*draw/);
 
-            // Seleziona la prima parola disponibile
             const firstWordBtn = page.locator('.word-card-btn').first();
             await expect(firstWordBtn).toBeVisible({ timeout: 10000 });
             await firstWordBtn.click();
@@ -72,11 +71,9 @@ test.describe('Flusso di gioco', () => {
             const canvas = page.locator('canvas.sketch-canvas');
             const saveBtn = page.locator('.save-btn');
 
-            // Verifica lo stato iniziale: canvas visibile e button salva bloccato
             await expect(canvas).toBeVisible();
             await expect(saveBtn).toBeDisabled();
 
-            // Calcola le coordinate della canvas per cliccare nei bordi
             const canvasBox = await canvas.boundingBox();
             if (!canvasBox) throw new Error('Canvas non trovato nella pagina!');
             const startX = canvasBox.x + 100;
@@ -183,7 +180,6 @@ test.describe('Flusso di gioco', () => {
             const token = await page.evaluate(() => localStorage.getItem('auth_token'));
             if (!token) throw new Error('Token non trovato (chiave auth_token)');
 
-            // Recupera dati usando il token passato come argomento
             const { parolaCorretta, sketchId } = await page.evaluate(async (token) => {
                
                 const resMe = await fetch('http://localhost:3000/api/sketches/me', {

@@ -1,4 +1,3 @@
-/* VARIABILI GLOBALI */
 :root {
   --primary-blue: #2b78e4;
   --secondary-orange: #f39c12; 
@@ -8,7 +7,6 @@
   --text-gray: #888888;
 }
 
-/* RESET E IMPOSTAZIONI BASE */
 html, body {
   margin: 0;
   padding: 0;
@@ -29,7 +27,7 @@ html, body {
   box-sizing: inherit;
 }
 
-/* CLASSI GLOBALI CONDIVISE (Da usare nella Dashboard e ovunque) */
+/* Classi globali condivise */
 .card {
   background-color: var(--white);
   border-radius: 16px;
@@ -87,7 +85,7 @@ html, body {
   z-index: 1000; 
   
   padding-top: 20px; 
-  padding-bottom: 10px; /* Spazio extra sotto prima che inizino le card */
+  padding-bottom: 10px; 
   
   // Camuffa le cards che scorrono sotto la navbar
   background-color: var(--bg-dashboard); 
@@ -97,7 +95,6 @@ html, body {
   background-attachment: fixed;
 }
 
-/* Nasconde scrollbar globale */
 
 /* Firefox */
 html, body {

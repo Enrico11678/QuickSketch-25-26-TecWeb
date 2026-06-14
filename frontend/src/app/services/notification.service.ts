@@ -11,7 +11,7 @@ export class NotificationService {
 
   show(msg: string, type: NotificationType = 'info') {
     this.state.set({ message: msg, type });
-    if (type !== 'info') { // Info o conferme potrebbero restare più a lungo
+    if (type !== 'info') { 
       setTimeout(() => this.state.set({ message: '', type: 'info' }), 4000);
     }
   }

@@ -23,7 +23,7 @@ export class GuessPage implements OnInit {
   private notificationService = inject(NotificationService);
 
   guessForm: FormGroup = this.formBuilder.group({
-    guess: ['', [Validators.required, Validators.minLength(2)]] // Obligaotorio e minimo due caratteri
+    guess: ['', [Validators.required, Validators.minLength(2)]] 
   })
 
   // Stato del gioco
@@ -121,7 +121,7 @@ export class GuessPage implements OnInit {
     });
   }
 
-  // Recuperostroico tentativi e aggiornamento stato
+  // Recupero storico tentativi e aggiornamento stato
   private loadPreviousGuesses(sketchId: number) {
     this.guessService.getPreviousGuesses(sketchId).subscribe({
       next: (res) => {
@@ -153,7 +153,6 @@ export class GuessPage implements OnInit {
   submitGuess() {
     if (this.guessForm.invalid || this.gameState() !== 'playing') return;
 
-    // Estraggo il valore pulito dal form
     const attempt = this.guessForm.value.guess.trim();
     this.errorMessage.set(null);
 
@@ -161,7 +160,6 @@ export class GuessPage implements OnInit {
       next: (res) => {
         const result = res.data;
 
-        // Svuoto solo l'input del form
         this.guessForm.get('guess')?.reset('');
 
         this.attemptsLeft.set(result.attemptsLeft);
@@ -199,9 +197,8 @@ export class GuessPage implements OnInit {
         this.router.navigate(['/guess', nextSketch.id]);
       });
     } 
-    // Se non ce ne sono altri (playable.length == 1 o 0), avviso
     else {
-      this.notificationService.show("Non ci sono altri disegni da infovinare!", 'info');
+      this.notificationService.show("Non ci sono altri disegni da indovinare!", 'info');
     }
   });
 }

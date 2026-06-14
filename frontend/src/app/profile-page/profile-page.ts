@@ -27,7 +27,6 @@ export class ProfilePage implements OnInit {
   drawingsGuessedCount = signal<number>(0);
   failedCount = signal<number>(0);
 
-  // Qui verrà salvato lo storico dei disegni
   storicoDisegni = signal<any[]>([]); 
 
   ngOnInit() {
@@ -48,7 +47,6 @@ export class ProfilePage implements OnInit {
       },
       error: (err) => {
         console.error('Errore caricamento profilo', err)
-        // Protezione contro l'utente fantasma
         if (err.status === 404 || err.status === 401) {
           localStorage.removeItem('auth_token');
           this.router.navigate(['/login']);
@@ -60,7 +58,6 @@ export class ProfilePage implements OnInit {
   recuperaMieiDisegni() {
     this.sketchService.getMySketches().subscribe({
       next: (res) => {
-        // Estraggo i disegni dalla risposta del backend
         const sketches = res.data?.sketches || res.data || [];
         this.storicoDisegni.set(sketches);
       },
@@ -72,11 +69,10 @@ export class ProfilePage implements OnInit {
   const confirmMsg = "ATTENZIONE: Questa azione è irreversibile. Sei davvero sicuro di voler eliminare il tuo account?";
   
   if (window.confirm(confirmMsg)) {
-    // Inietto AuthService 
     this.authService.deleteAccount().subscribe({
       next: () => {
-        this.authService.logout(); // Pulisce il token
-        this.router.navigate(['/login']); // Redirect al login
+        this.authService.logout(); 
+        this.router.navigate(['/login']); 
       },
       error: (err) => {
         console.error("Errore eliminazione:", err);

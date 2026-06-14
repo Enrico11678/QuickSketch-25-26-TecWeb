@@ -32,5 +32,5 @@ Sketch.init({
     sequelize: database,
     modelName: 'Sketch',
     tableName: 'sketches',
-    timestamps: true // fondamentale per la data di creazione
+    timestamps: true // Utile per la data di creazione
 });

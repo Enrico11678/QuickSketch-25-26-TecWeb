@@ -17,13 +17,11 @@ export class MiniLeaderboard implements OnInit {
   topDesigners = signal<any[]>([]);
 
   ngOnInit() {
-    // Chiedo al backend i 5 migliori indovinatori
     this.statsService.getTopPlayers(3).subscribe({
       next: (res) => this.topPlayers.set(res.data.leaderboard),
       error: (err) => console.error('Errore nel recupero top players', err)
     });
 
-    // Chiedo al backend i 5 migliori disegnatori
     this.statsService.getTopDesigners(3).subscribe({
       next: (res) => this.topDesigners.set(res.data.leaderboard),
       error: (err) => console.error('Errore nel recupero top designers', err)

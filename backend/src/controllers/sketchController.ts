@@ -2,14 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { AuthRequest } from "../middlewares/authMiddleware.js";
 import * as sketchService from "../services/sketchService.js"
 
-// Salva un nuovo disegno realizzato dall'utente
-// Richiede autenticazione
 export const createSketch = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const { wordId, content } = req.body;
+        const { wordId, content } = req.body; // restituisce una stringa json
         const userId = req.user!.userId;
 
-        const newSketch = await sketchService.createSketch(userId, Number(wordId), content); // wordId proviene dal body quindi forziamo Number()
+        // Casting Number(wordId) perchè nel nbody era una stringa
+        const newSketch = await sketchService.createSketch(userId, Number(wordId), content); 
 
         res.status(201).json({
             status: "success",
@@ -20,9 +19,6 @@ export const createSketch = async (req: AuthRequest, res: Response, next: NextFu
     }
 };
 
-// Recupera la galleria degli sketch
-// Se loggato: filtra i propri e quelli completati/esauriti
-// Se ospite: mostra tutto (senza soluzione).
 export const getGallery = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const authReq = req as AuthRequest;
@@ -44,7 +40,6 @@ export const getGallery = async (req: Request, res: Response, next: NextFunction
     }
 };
 
-// Recupera un singolo sketch per Id (dettagli Sketch)
 export const getSketchDetails = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
@@ -59,7 +54,6 @@ export const getSketchDetails = async (req: Request, res: Response, next: NextFu
     }
 };
 
-// Recupera gli scketches creati dall'utente corrente
 export const getMySketches = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         const userId = req.user!.userId;
@@ -75,13 +69,10 @@ export const getMySketches = async (req: AuthRequest, res: Response, next: NextF
     }
 };
 
-// Recupera SOLO gli sketch che l'utente loggato può giocare
-// (Esclude i propri, quelli già indovinati e quelli persi)
 export const getPlayableSketches = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         const userId = req.user!.userId;
         
-        // Richiama la funzione che hai già scritto in sketchService
         const sketches = await sketchService.getPlayableSketches(userId);
 
         res.status(200).json({

@@ -138,7 +138,7 @@
   align-items: center;
   background-color: #f1f5f9;
   padding: 20px;
-  position: relative; /* Necessario per l'overlay del tempo scaduto */
+  position: relative; 
 
   /* Messaggio di Tempo Scaduto */
   .canvas-overlay {
@@ -220,7 +220,7 @@
   }
 }
 
-/* Responsività (Tablet e Smartphone) */
+/* Responsività */
 @media (max-width: 850px) {
   .draw-page-wrapper {
     padding: 15px 10px;
@@ -232,7 +232,6 @@
     gap: 15px;
     text-align: center;
     
-    /* Mettiamo la parola da indovinare in cima a tutto */
     .word-container {
       order: -1; 
     }
@@ -246,7 +245,7 @@
   .sketch-canvas {
     max-width: 100%;
     height: auto;
-    touch-action: none; /* Cruciale: evita che la pagina scorra se l'utente disegna dal telefono */
+    touch-action: none; 
   }
 
   /* Impila gli strumenti e manda a capo i colori */
@@ -258,15 +257,15 @@
   .colors {
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px; /* Aumentato leggermente il gap */
+  gap: 12px; 
   padding: 10px;
-  background: #f8fafc; /* Aggiunto uno sfondo leggero per definire l'area cliccabile */
+  background: #f8fafc; 
   border-radius: 12px;
 
     .color-btn {
-      width: 45px; /* Leggermente più grande per le dita */
+      width: 45px; 
       height: 45px;
-      border: 3px solid #fff; /* Bordo bianco per far risaltare il colore */
+      border: 3px solid #fff; 
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
   }

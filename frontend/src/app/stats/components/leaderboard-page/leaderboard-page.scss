@@ -2,19 +2,19 @@
 .leaderboard-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Evita che si stiri in altezza */
+  align-items: flex-start; 
   width: 100%;
 }
 
 /* Card centrale che contiene tutto */
 .leaderboard-main-card {
   width: 100%;
-  max-width: 900px; /* Larghezza ottimale per la lettura delle tabelle */
+  max-width: 900px; 
   padding: 40px;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  margin-bottom: 40px; /* Spazio in basso prima della fine della pagina */
+  margin-bottom: 40px; 
 }
 
 /* Header */
@@ -70,7 +70,7 @@
 
 /* Tabella */
 .table-wrapper {
-  overflow-x: auto; /* Permette lo scroll orizzontale su schermi molto piccoli */
+  overflow-x: auto; 
 }
 
 .leaderboard-table {
@@ -95,17 +95,14 @@
     vertical-align: middle;
   }
 
-  /* Rimuove il bordo inferiore dall'ultima riga */
   tr:last-child td {
     border-bottom: none;
   }
 
-  /* Evidenzia il podio con uno sfondo grigio/azzurro impercettibile */
   tr.podium td {
     background-color: #f8fafc;
   }
 
-  /* Allineiamo i nomi utente a sinistra per maggiore leggibilità */
   th.col-user, td.col-user {
     text-align: left;
   }
@@ -122,7 +119,6 @@
   }
 }
 
-/* Badge della Posizione (Riutilizzati dalla dashboard) */
 .rank-badge {
   display: inline-flex;
   justify-content: center;

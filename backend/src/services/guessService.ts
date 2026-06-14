@@ -4,34 +4,26 @@ import { BadRequestError, GameRuleError, NotFoundError } from "../utils/errors.j
 import { getSketchesByIdWithWord } from "./sketchService.js";
 
 // Funzioni principali
-
 export const makeGuess = async (userId: number, sketchId: number, attemptText: string) => {
-    // Validazione base
     validateGuessText(attemptText);
 
-    // Recupero dati
     const sketchData = await getSketchesByIdWithWord(sketchId) as any; // cast as any per fare sketchData.word.text abilmente.
     const solutionText = sketchData.word.text;
 
-    // Regole del gioco
     const previousAttemptsCount = await checkGameRulesAndGetAttempts(userId, sketchId, sketchData.authorId);
 
-    // Logica di vittoria
     const isCorrect = isGuessWinning(attemptText, solutionText);
 
-    // Salvataggio su DB
     const newGuess = await saveGuessAndStats(userId, sketchId, sketchData.authorId, attemptText, isCorrect, previousAttemptsCount);
 
-    // Risposta al controller
     return {
         guess: newGuess,
         isCorrect,
         attemptsLeft: 10 - (previousAttemptsCount + 1),
-        solution: (isCorrect || previousAttemptsCount === 9) ? solutionText : null // Se indovina o ha sbagliato definitivamente invia la soluzione.
+        solution: (isCorrect || previousAttemptsCount === 9) ? solutionText : null 
     };
 }; 
 
-// Recupera i tentativi precedenti di un utente per uno specifico sketch.
 export const getMyGuessesForSketch = async (userId: number, sketchId: number) => {
     return await Guess.findAll({
         where: { userId, sketchId },
@@ -41,15 +33,12 @@ export const getMyGuessesForSketch = async (userId: number, sketchId: number) =>
 };
 
 // Funzioni ausiliarie
-
-// Valida l'inmput testuale inserito dall'utente
 const validateGuessText = (text: string) => {
     if (!text || text.trim() === '') {
         throw new BadRequestError("Il testo del tentativo non può essere vuoto.");
     }
 };
 
-// Controlla le regole del gioco e restituisce il numero di tentativi già fatti
 const checkGameRulesAndGetAttempts = async (userId: number, sketchId: number, authorId: number): Promise<number> => {
     if (userId === authorId) throw new GameRuleError("Non puoi provare a indovinare il tuo stesso disegno.");
 
@@ -64,7 +53,6 @@ const checkGameRulesAndGetAttempts = async (userId: number, sketchId: number, au
     return attemptsCount;
 };
 
-// Confronta il guess dell'utente con la soluzione
 const isGuessWinning = (attempt: string, solution: string): boolean => {
     return attempt.trim().toLowerCase() === solution.trim().toLowerCase();
 };

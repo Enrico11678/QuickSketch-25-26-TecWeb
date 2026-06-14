@@ -6,10 +6,7 @@ import { tap } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  // Inietto lo strumento di Angular per fare le chiamate di rete
   private http = inject(HttpClient);
-
-  // Definisco l'indirizzo base del server Node.js
   private apiUrl = 'http://localhost:3000/api/auth';
 
   login(emailUtente: string, passwordUtente: string) {
@@ -18,12 +15,10 @@ export class AuthService {
       password: passwordUtente
     };
 
-    // Faccio una richiesta POST all'indirizzo http://localhost:3000/api/auth/login
-    // e restituisco l'Observable (il "sottoscrivibile") al componente
     return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
       tap(risposta => {
         if (risposta && risposta.data && risposta.data.token) {
-          localStorage.setItem('auth_token', risposta.data.token); // Salviamo il token
+          localStorage.setItem('auth_token', risposta.data.token); 
           console.log('Token salvato con successo nel localStorage!');
         } else {
           console.error('Il backend ha risposto OK, ma la struttura del token non è quella attesa!', risposta);
@@ -39,29 +34,22 @@ export class AuthService {
       password: passwordUtente
     };
 
-    // Faccio una richiesta POST all'indirizzo http://localhost:3000/api/auth/register
     return this.http.post(`${this.apiUrl}/register`, body);
   }
 
-  // Verifica se il token esiste nel localStorage
   isLoggedIn(): boolean {
     return !!localStorage.getItem('auth_token');
   }
 
-  // Recupera i dati del profilo dell'utente loggato
   getProfile() {
-    // Basta solo l'URL! L'interceptor aggiungerà automaticamente il token in background
     return this.http.get<any>('http://localhost:3000/api/users/me/stats');
   }
 
-  // Rimuove il token
   logout() {
     localStorage.removeItem('auth_token');
   }
 
-  // Elimina l'account
   deleteAccount() {
-    // Uso l'URL base dei profili utente, non quello dell'auth
     return this.http.delete('http://localhost:3000/api/users/me');
   }
 }

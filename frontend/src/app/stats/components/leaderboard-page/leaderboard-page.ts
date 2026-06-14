@@ -23,7 +23,6 @@ export class LeaderboardPage implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      // Se il parametro esiste ed è valido, aggiorna il tab attivo
       if (params['tab'] === 'players' || params['tab'] === 'designers') {
         this.activeTab.set(params['tab']);
       }

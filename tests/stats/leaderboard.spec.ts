@@ -11,7 +11,6 @@ test.describe('Leaderboard Page', () => {
 
     test('10. Verifica caricamento e rendering classifica', async ({ page }) => {
         // Arrange
-        // Naviga alla pagina e vede che il layout sia pronto
         await page.goto('/leaderboard');
         const designersTabBtn = page.getByRole('button', { name: /top disegnatori/i });
         const playersTabBtn = page.getByRole('button', { name: /top indovini/i });

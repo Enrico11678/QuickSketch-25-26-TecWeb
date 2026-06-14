@@ -27,7 +27,6 @@ export class GalleryCard implements OnInit {
     this.isLoading.set(true);
     this.sketchService.getGallery().subscribe({
       next: (response: any) => {
-        // Estraiamo i disegni dalla risposta del backend
         this.sketchesList.set(response.data.sketches);
         this.isLoading.set(false);
       },

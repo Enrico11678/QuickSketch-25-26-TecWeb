@@ -10,7 +10,6 @@ export default defineConfig({
   reporter: 'html',
 
   use: {
-    // Puntiamo a localhost perché Nginx nel container è mappato sulla porta 80
     baseURL: 'http://localhost',
     trace: 'on',
     screenshot: 'on',

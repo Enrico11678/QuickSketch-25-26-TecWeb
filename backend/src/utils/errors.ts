@@ -1,4 +1,3 @@
-// La base: ogni errore deve avere un codice HTTP
 export class AppError extends Error {
     constructor(public message: string, public statusCode: number) {
         super(message);

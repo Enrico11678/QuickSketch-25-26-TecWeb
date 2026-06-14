@@ -5,14 +5,12 @@ import { validate } from '../middlewares/validateMiddleware.js';
 
 const router = Router();
 
-// Regole di validazione per la registrazione
 const registerValidation = [
     body('email').isEmail().withMessage('Inserisci un indirizzo email valido'),
     body('password').isLength({ min: 6 }).withMessage('La password deve essere di almeno 6 caratteri'),
     body('username').notEmpty().withMessage('Il nome utente è obbligatorio')
 ];
 
-// Regole di validazione per il login
 const loginValidation = [
     body('email').isEmail().withMessage('Inserisci un indirizzo email valido'),
     body('password').notEmpty().withMessage('La password è obbligatoria')

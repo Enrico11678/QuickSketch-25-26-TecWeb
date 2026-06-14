@@ -270,7 +270,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive per Smartphone */
+/* Responsive */
 @media (max-width: 900px) {
   .game-grid {
     grid-template-columns: 1fr;

@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize'
-import { database } from '../Database.js'   // import da Database.js perchè il file Database.ts viene transpilato in JavaScript
+import { database } from '../Database.js'   
 
-export class User extends Model {   // con export sequelize sa che User è un modello del db e ha tutte le capacità previste da sequelize
+export class User extends Model {   
     public id!: number;
     public username!: string;
     public email!: string;
@@ -9,7 +9,7 @@ export class User extends Model {   // con export sequelize sa che User è un mo
 
     // Statistiche
     public drawingsCount!: number;
-    public drawingsGuessedCount!: number;   // Quanti dei suoi disegni sono stati indovinati
+    public drawingsGuessedCount!: number;   
     public guessedCount!: number;
     public failedCount!: number;
     public totalAttemptsUsed!: number;
@@ -31,16 +31,13 @@ User.init({
         allowNull: false,
         unique: true,
         validate: {
-            isEmail: true // Validazione integrata per fare in modo che sia un formato email valido
+            isEmail: true 
         }
     },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    /* Mapping esplicito: camelCase nel codice, snake_case nel DB PostgreSQL.
-       In questo modo seguo le convenzioni SQL standard e rendo leggibile il codice TypeScript.
-    */
    drawingsCount: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
@@ -69,6 +66,6 @@ User.init({
 }, {
     sequelize: database,
     modelName: 'User',
-    tableName: 'users', // Nome tabella esplicito e al plurale seguendo le convenzioni SQL
-    timestamps: true    // Gestisce automaticamente createdAt e updatedAt
+    tableName: 'users', 
+    timestamps: true    
 });

@@ -1,5 +1,5 @@
 import { Component, signal, inject } from '@angular/core';
-import { RouterLink, Router } from '@angular/router'; // Router serve per cambiare pagina dopo il successo
+import { RouterLink, Router } from '@angular/router'; 
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { NotificationService } from '../../services/notification.service';
@@ -29,35 +29,20 @@ export class Register {
     this.showPassword.set(!this.showPassword());
   }
 
-  // Funzione che scatta quando viene premuto il pulsante "Registrati"
   register() {
-    // 1. Debug: vediamo se il form è valido
     if (this.registerForm.invalid) {
-      console.log('DEBUG: Form non valido!');
-      // Esploriamo cosa c'è che non va nei campi
-      Object.keys(this.registerForm.controls).forEach(key => {
-        const controlErrors = this.registerForm.get(key)?.errors;
-        if (controlErrors) {
-          console.log(`DEBUG: Campo '${key}' errori:`, controlErrors);
-        }
-      });
       this.registerForm.markAllAsTouched();
       return;
     }
 
-    console.log('DEBUG: Form valido, invio in corso...');
-
     const { username, email, password } = this.registerForm.value;
 
     this.authService.register(username, email, password).subscribe({
-      next: (rispostaDelServer) => {
-        console.log('DEBUG: Registrazione avvenuta con successo!', rispostaDelServer);
+      next: () => {
         this.notificationService.show('Account creato con successo!', 'success');
         this.router.navigate(['/login']);
       },
       error: (errore) => {
-        // 2. Debug: vediamo cosa risponde esattamente il server
-        console.error('DEBUG: Errore dalla chiamata API:', errore);
         const messaggio = errore.error?.message || errore.error?.description || 'Registrazione fallita';
         this.notificationService.show(messaggio, 'error');
       }

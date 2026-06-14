@@ -1,4 +1,4 @@
-/* Usiamo una griglia interna al page-layout per le 3 colonne */
+/* Griglia interna al page-layout per le 3 colonne */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 320px 1fr 340px;
@@ -43,7 +43,7 @@
   overflow-y: auto;
 }
 
-/* Responsive: se lo schermo è piccolo (tablet/smartphone), incolonna tutto */
+/* Responsive: se lo schermo è piccolo incolonna tutto */
 @media (max-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: 1fr;

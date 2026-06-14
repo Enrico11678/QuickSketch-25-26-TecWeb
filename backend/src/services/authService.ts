@@ -4,25 +4,19 @@ import { Op } from 'sequelize';
 import { User } from '../models/index.js';
 import { BadRequestError, ConflictError, AuthError } from '../utils/errors.js';
 
-// Funzione principale per la registrazione
 export const createUser = async (userData: any) => {
     const { username, email, password } = userData;
 
-    // Validazione presenza dati
     if (!username || !email || !password) {
         throw new BadRequestError("Dati mancanti per la registrazione.");
     }
 
-    // Validazione policy password
     validatePasswordPolicy(password);
 
-    // Controllo unicità
     await ensureUniqueness(email, username);
 
-    // Hashing
     const hashedPassword = await hashUserPassword(password);
 
-    // Creazione User
     return await User.create({
         username,
         email, 
@@ -30,22 +24,17 @@ export const createUser = async (userData: any) => {
     });
 };
 
-// Funzione principale di Login
 export const loginUser = async (loginData: any) => {
     const { email, password } = loginData;
 
-    // Validazione presenza dati
     if (!email || !password) {
         throw new BadRequestError("Email e password sono obbligatorie.");
     }
 
-    // Recupero utente dal database
     const user = await findUserByEmail(email);
 
-    // Verifica password
     await verifyPassword(password, user.password);
 
-    // Creazione sessione
     const token = generateUserToken(user.id, user.email);
 
     return { user, token };
@@ -78,7 +67,7 @@ const ensureUniqueness = async (email: string, username: string): Promise<void> 
 
 // Funzione di hash della password
 const hashUserPassword = async (password: string): Promise<string> => {
-    return await bcrypt.hash(password, 10); // il valore '10' (Salt Rounds) rappresenta un equilibrio ideale tra Sicurezza e Performance: 2^10 iterazioni.
+    return await bcrypt.hash(password, 10); // il valore '10' rappresenta un equilibrio ideale tra Sicurezza e Performance: 2^10 iterazioni.
 };
 
 // Funzioni ausiliari per il Login

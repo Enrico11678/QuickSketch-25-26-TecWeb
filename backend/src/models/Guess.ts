@@ -5,8 +5,8 @@ export class Guess extends Model {
     public id!: number;
     public attemptText!: string;
     public isCorrect!: boolean;
-    public userId!: number; // Chi sta provando a indovinare
-    public sketchId!: number;   // Su quale disegno sta tentando
+    public userId!: number; 
+    public sketchId!: number;   
 }
 
 Guess.init({

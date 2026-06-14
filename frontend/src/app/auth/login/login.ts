@@ -35,7 +35,6 @@ export class Login {
     this.showPassword.set(!this.showPassword());
   }
 
-  // Funzione che scatta quando viene premuto il pulsante "Accedi"
   login() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -44,7 +43,6 @@ export class Login {
 
     console.log('Sto inviando i dati al server...');
 
-    // Estraggo i dati puliti e validati dal form
     const { email, password } = this.loginForm.value;
 
     this.authService.login(email, password).subscribe({

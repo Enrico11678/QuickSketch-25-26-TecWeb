@@ -35,7 +35,6 @@
       color: var(--primary-blue);
     }
 
-    /* Classe automatica di Angular quando siamo su quella pagina */
     &.active {
       color: var(--primary-blue);
       font-weight: bold;
@@ -70,7 +69,6 @@
   }
 }
 
-/* Responsive per schermi piccoli */
 @media (max-width: 768px) {
   .navbar-container {
     flex-direction: column;

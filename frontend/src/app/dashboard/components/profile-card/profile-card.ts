@@ -25,12 +25,11 @@ export class ProfileCard implements OnInit {
   }
 
   recuperaDatiUtente() {
-    // Chiamata al server
     this.authService.getProfile().subscribe({
       next: (rispostaDelServer) => {
         const utente = rispostaDelServer.data.stats;
 
-        // Aggiorniamo i signal con i dati estratti dal database
+        // Aggiorna i signal con i dati estratti dal database
         this.username.set(utente.username || 'Utente anonimo');
         this.drawingsCount.set(utente.drawingsCount || 0);
         this.guessedCount.set(utente.guessedCount || 0);
@@ -41,7 +40,6 @@ export class ProfileCard implements OnInit {
         console.error('Errore nel recupero dei dati del profilo:', errore);
         this.username.set('Errore di caricamento');
 
-        // Protezione contro l'utente fantasma
         if (errore.status === 404 || errore.status === 401) {
           localStorage.removeItem('auth_token');
           this.router.navigate(['/login']);

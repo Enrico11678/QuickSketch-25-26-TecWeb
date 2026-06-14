@@ -7,7 +7,6 @@ export const submitGuess = async (req: AuthRequest, res: Response, next: NextFun
         const userId = req.user!.userId;
         const { sketchId, attemptText } = req.body;
 
-        // Chiamo il service per fare il tentativo
         const result = await guessService.makeGuess(userId, sketchId, attemptText);
 
         res.status(201).json({
@@ -24,7 +23,6 @@ export const getMyGuessesForSketch = async (req: AuthRequest, res: Response, nex
         const userId = req.user!.userId;
         const sketchId = Number(req.params.sketchId);
 
-        // Chiamo il service per ottenere lo storico
         const guesses = await guessService.getMyGuessesForSketch(userId, sketchId);
 
         res.status(200).json({

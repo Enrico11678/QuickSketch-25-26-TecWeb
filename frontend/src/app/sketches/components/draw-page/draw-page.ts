@@ -27,7 +27,7 @@ export class DrawPage implements OnInit, OnDestroy {
   wordsList = signal<{ id: number; text: string }[]>([]); 
   selectedWord = signal<{ id: number; text: string } | null>(null); 
   isGameStarted = signal<boolean>(false); 
-  timeLeft = signal<number>(60); // 60 secondi di tempo limite
+  timeLeft = signal<number>(60); 
   formattedTime = signal<string>('01:00');
   selectedColor = signal<string>('#1e293b'); 
   timerExpired = signal<boolean>(false);
@@ -37,14 +37,14 @@ export class DrawPage implements OnInit, OnDestroy {
   // Variabili interne
   private isDrawing = false;
   private timerInterval: any;
-  isCanvasDirty = false; // Diventa true solo quando l'utente fa almeno un tratto
+  isCanvasDirty = false; 
 
   ngOnInit() {
     this.loadAvailableWords();
   }
 
   ngOnDestroy() {
-    this.clearTimer(); // Evita memory leak se si esce prima dalla pagina
+    this.clearTimer(); 
   }
 
   // Recupera le parole
@@ -77,7 +77,7 @@ export class DrawPage implements OnInit, OnDestroy {
         if (time <= 1) {
           this.clearTimer();
           this.timerExpired.set(true);
-          this.isDrawing = false; // Blocca la penna
+          this.isDrawing = false; 
           return 0;
         }
         return time - 1;
@@ -100,7 +100,7 @@ export class DrawPage implements OnInit, OnDestroy {
     }
   }
 
-  // Logica della Canvas (Disegno)
+  // Logica della Canvas
   private initCanvasDrawingLogic() {
   if (!this._canvasRef) return;
   const canvas = this._canvasRef.nativeElement;
@@ -111,13 +111,13 @@ export class DrawPage implements OnInit, OnDestroy {
   this.ctx.lineJoin = 'round';
   this.ctx.strokeStyle = this.selectedColor();
 
-  // Eventi Mouse (Desktop)
+  // Eventi Mouse
   canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
   canvas.addEventListener('mousemove', (e) => this.draw(e));
   canvas.addEventListener('mouseup', () => this.stopDrawing());
   canvas.addEventListener('mouseleave', () => this.stopDrawing());
 
-  // EVENTI TOUCH (MOBILE)
+  // Eventi touch
   canvas.addEventListener('touchstart', (e) => {
     e.preventDefault(); // Blocca lo scroll della pagina
     this.startDrawing(e.touches[0]);
@@ -131,7 +131,6 @@ export class DrawPage implements OnInit, OnDestroy {
   canvas.addEventListener('touchend', () => this.stopDrawing());
 }
 
-  // Modifica startDrawing
 private startDrawing(e: MouseEvent | Touch) {
   if (this.timerExpired() || this.isSaving() || !this.isGameStarted()) return;
   this.isDrawing = true;
@@ -142,7 +141,6 @@ private startDrawing(e: MouseEvent | Touch) {
   this.ctx.moveTo(coords.x, coords.y);
 }
 
-// Modifica draw
 private draw(e: MouseEvent | Touch) {
   if (!this.isDrawing || this.timerExpired() || this.isSaving()) return;
 
@@ -159,7 +157,6 @@ private getCanvasCoordinates(e: any) {
   const canvas = this._canvasRef.nativeElement;
   const rect = canvas.getBoundingClientRect();
   
-  // Funziona sia per e.clientX (Mouse) che per e.clientX (Touch)
   const clientX = e.clientX;
   const clientY = e.clientY;
 
@@ -188,7 +185,6 @@ private getCanvasCoordinates(e: any) {
     this.isCanvasDirty = false;
   }
 
-  // Salvataggio
   saveSketch() {
     const word = this.selectedWord();
     if (!word || !this.isCanvasDirty || !this._canvasRef) return;

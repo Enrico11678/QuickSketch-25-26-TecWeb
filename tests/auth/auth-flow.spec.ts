@@ -27,7 +27,6 @@ test.describe('Flusso di autenticazione completo', () => {
         await expect(submitBtn).toBeEnabled();
         await submitBtn.scrollIntoViewIfNeeded();
         
-        // Aspettiamo che l'API risponda 201 (Created)
         await Promise.all([
             page.waitForResponse(res => res.url().includes('/api/auth/register') && res.status() === 201),
             submitBtn.click()

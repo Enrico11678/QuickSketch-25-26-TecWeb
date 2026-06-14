@@ -18,7 +18,6 @@ export const getMyStats = async (req: AuthRequest, res: Response, next: NextFunc
 
 export const getPlayersLeaderboard = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        // Estraiamo il limite della query string, altrimenti usiamo 10 di default.
         const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
         const leaderboard = await userService.getTopPlayers(limit);
 
@@ -47,7 +46,6 @@ export const getDesignersLeaderboard = async (req: AuthRequest, res: Response, n
     }
 };
 
-// Elimina l'account dell'utente corrente
 export const deleteAccount = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         const userId = req.user!.userId;

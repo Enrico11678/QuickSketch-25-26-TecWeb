@@ -6,10 +6,13 @@ import { validate } from "../middlewares/validateMiddleware.js";
 
 const router = Router();
 
-// Regole
 const createSketchRules = [
     body('wordId').isInt().withMessage('ID parola non valido'),
     body('content').trim().notEmpty().withMessage('Il contenuto è obbligatorio')
+];
+
+const idParamValidation = [
+    param('id').isInt().withMessage('ID non valido')
 ];
 
 // Endpoint: POST /api/sketches
@@ -22,11 +25,10 @@ router.get('/me', authenticateToken, sketchController.getMySketches);
 router.get('/playable', authenticateToken, sketchController.getPlayableSketches);
 
 //Endpoint: GET /api/sketches/:id
-router.get('/:id', [param('id').isInt().withMessage('ID non valido')], validate([]), sketchController.getSketchDetails);
+router.get('/:id', validate(idParamValidation), sketchController.getSketchDetails);
 
 // Endpoint: GET /api/sketches
-/// Usiamo authenticateOptional qui perchè anche chi non è loggato deve poter vedere la galleria degli sketches.
-// Se non l'avessimo usato gli utenti loggati sarebbero stati trattati come guests.
+/// Uso authenticateOptional qui perchè anche chi non è loggato deve poter vedere la galleria degli sketches.
 router.get('/', authenticateOptional, sketchController.getGallery);
 
 export default router;
