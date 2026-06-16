@@ -8,7 +8,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 
     // Controllo se l'utente ha il token
     if (authService.isLoggedIn()) {
-        return true; // Lascia passare l'utente alla dashboard
+        return true; // Lascia passare l'utente 
     } else {
         // il token non esiste. Rispedisce l'utente al login
         router.navigate(['/login']);

@@ -175,7 +175,7 @@ test.describe('Flusso di gioco', () => {
 
         test('9. Indovinare lo Sketch (Flusso Successo)', async ({ page }) => {
             // Arrange
-            await page.goto('/dashboard', { waitUntil: 'networkidle' });
+            await page.goto('/dashboard', { waitUntil: 'networkidle' }); // Aspetto che la dashboard sia pronta e che non ci siano richieste di rete ancora attive
 
             const token = await page.evaluate(() => localStorage.getItem('auth_token'));
             if (!token) throw new Error('Token non trovato (chiave auth_token)');

@@ -28,7 +28,7 @@ router.get('/playable', authenticateToken, sketchController.getPlayableSketches)
 router.get('/:id', validate(idParamValidation), sketchController.getSketchDetails);
 
 // Endpoint: GET /api/sketches
-/// Uso authenticateOptional qui perchè anche chi non è loggato deve poter vedere la galleria degli sketches.
+// Uso authenticateOptional qui perchè anche chi non è loggato deve poter vedere la galleria degli sketches.
 router.get('/', authenticateOptional, sketchController.getGallery);
 
 export default router;
